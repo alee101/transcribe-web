@@ -1,4 +1,4 @@
-var app = angular.module('transcriber', []);
+var app = angular.module('transcriber', ['textAngular']);
 
 app.factory('getUserDataSvc', function() {
 	return {
@@ -49,15 +49,6 @@ app.factory('getUserDataSvc', function() {
 	};
 });
 
-// app.directive('folderItem', function() {
-// 	return {
-// 		restrict: 'AE',
-// 		replace: true,
-// 		scope: {
-// 			title: '='
-// 		templateUrl: 'folderItem.html'
-// 	};
-// });
 
 app.directive('noteItem', function() {
 	return {
@@ -71,29 +62,31 @@ app.directive('noteItem', function() {
 	};
 });
 
-app.directive('noteDisplay', function() {
-	return {
-		restrict: 'AE',
-		replace: true,
-		scope: {
-			mainNote: '='
-		},
-		templateUrl: 'noteDisplay.html'
-	};
-});
 
 app.controller("MainCtrl", function($scope, $http, getUserDataSvc) {
 	var user = getUserDataSvc.getData();
 	$scope.folders = user.folders;
 	$scope.notes = user.folders[0].notes;
-	$scope.mainNote = {};
+	$scope.editContent = '';
+	$scope.editView = false;
 
 	$scope.fetchNotes = function(folder) {
 		$scope.notes = folder.notes;
-	}
+	};
 
 	$scope.displayNote = function(note) {
-		$scope.mainNote = note;
-		console.log($scope.mainNote);
-	}
+		$scope.editContent = note.preview;
+	};
+
+	$scope.enableEdit = function() {
+		$scope.editView = true;
+	};
+
+	$scope.saveEdit = function() {
+		$scope.editView = false;
+	};
+
+	$scope.cancelEdit = function() {
+		$scope.editView = false;
+	};
 });

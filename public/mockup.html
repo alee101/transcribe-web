@@ -2,7 +2,7 @@
 <html ng-app="transcriber" lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Transcribe</title>
+        <title>TranScribe</title>
         <meta name="description" content="description">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -10,6 +10,8 @@
         <link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
         <link href="css/main.css" rel="stylesheet">
         <script src="js/angular.min.js"></script>
+        <script src="js/textAngular-sanitize.min.js"></script>
+        <script src="js/textAngular.js"></script>
         <script src="js/main.js"></script>
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -58,7 +60,7 @@
             <ul class="nav notes-list">
                 <li ng-repeat="note in notes" ng-click=displayNote(note)>
                     <a href='#'>
-                        <x-note-item title=note.title preview=note.preview />
+                        <x-note-item preview=note.preview />
                     </a>
                 </li>
             </ul>
@@ -66,7 +68,16 @@
 
         <!--Start Content-->
         <div id="content" class="col-xs-12 col-sm-7">
-            <x-note-display ng-show=mainNote />
+            <!-- <x-note-display /> -->
+            <div class="note-editor-container">
+                <!-- Some text -->
+                <div id="note_box" ng-show="editContent && !editView" ng-bind="editContent" ng-click="enableEdit()"></div>
+                <div text-angular ng-show="editView" ng-model="editContent"></div>
+                <div class="save-bar">
+                    <a href="#" class="btn btn-success btn-large" ng-show="editView" ng-click="saveEdit()">Save</a>
+                    <a href="#" class="btn btn-warning btn-large" ng-show="editView" ng-click="cancelEdit()">Cancel</a>
+                </div>
+            </div>
         </div>
         <!--End Content-->
     </div>
