@@ -1,6 +1,6 @@
 var app = angular.module('transcriber', ['textAngular']);
 
-app.factory('getUserDataSvc', function() {
+app.factory('getUserDataSvc', function($http) {
 	return {
 		getData: function() {
 			user = {
@@ -8,38 +8,28 @@ app.factory('getUserDataSvc', function() {
 				'folders': [
 					{'title': 'Folder01',
 					 'notes': [
-						{'title': 'MyNote01',
-						 'preview': 'This is a preview of some note.',
+						{'preview': 'This is a preview of some note.',
 						 'id': 123},
-						{'title': 'MyNote02',
-						 'preview': 'This is a preview of some note.',
+						{'preview': 'This is a preview of some note.',
 						 'id': 234},
-						{'title': 'MyNote03',
-						 'preview': 'This is a preview of some note.',
+						{'preview': 'This is a preview of some note.',
 						  'id': 345},
-						{'title': 'MyNote04',
-						 'preview': 'This is a preview of some note.',
+						{'preview': 'This is a preview of some note.',
 						 'id': 456},
-						{'title': 'MyNote05',
-						 'preview': 'This is a preview of some note.',
+						{'preview': 'This is a preview of some note.',
 						 'id': 567},
-						{'title': 'MyNote06',
-						 'preview': 'This is a preview of some note.',
+						{'preview': 'This is a preview of some note.',
 						 'id': 678}
 					]},
 					{'title': 'Folder02',
 					 'notes': [
-						{'title': 'MyNote07',
-						 'preview': 'This is a preview of some note in folder 2.',
+						{'preview': 'This is a preview of some note in folder 2.',
 						 'id': 789},
-						{'title': 'MyNote08',
-						 'preview': 'This is a preview of some note in folder 2.',
+						{'preview': 'This is a preview of some note in folder 2.',
 						 'id': 987},
-						{'title': 'MyNote09',
-						 'preview': 'This is a preview of some note in folder 2.',
+						{'preview': 'This is a preview of some note in folder 2.',
 						  'id': 654},
-						{'title': 'MyNote10',
-						 'preview': 'This is a preview of some note in folder 2.',
+						{'preview': 'This is a preview of some note in folder 2.',
 						 'id': 321}
 					]},					
 				]
@@ -67,6 +57,7 @@ app.controller("MainCtrl", function($scope, $http, getUserDataSvc) {
 	var user = getUserDataSvc.getData();
 	$scope.folders = user.folders;
 	$scope.notes = user.folders[0].notes;
+	$scope.mainNote = {};
 	$scope.editContent = '';
 	$scope.editView = false;
 
@@ -75,6 +66,7 @@ app.controller("MainCtrl", function($scope, $http, getUserDataSvc) {
 	};
 
 	$scope.displayNote = function(note) {
+		$scope.mainNote = note;
 		$scope.editContent = note.preview;
 	};
 
@@ -83,10 +75,12 @@ app.controller("MainCtrl", function($scope, $http, getUserDataSvc) {
 	};
 
 	$scope.saveEdit = function() {
+		$scope.mainNote.preview = $scope.editContent;
 		$scope.editView = false;
 	};
 
 	$scope.cancelEdit = function() {
+		$scope.editContent = $scope.mainNote.preview;
 		$scope.editView = false;
 	};
 });

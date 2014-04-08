@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var User = require('./models/user');
 var tesseract = require('node-tesseract');
 
 module.exports = function(app, passport) {
@@ -13,7 +14,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/login', passport.authenticate('local-login', {
-		successRedirect : '/profile',
+		successRedirect : '/notes',
 		failureRedirect : '/login',
 		failureFlash : true
 	}));
@@ -23,10 +24,16 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect : '/profile',
+		successRedirect : '/notes',
 		failureRedirect : '/signup',
 		failureFlash : true
 	}));
+
+	app.get('/notes', isLoggedIn, function(req, res) {
+		res.render('notes.ejs', {
+			user : req.user
+		});
+	});
 
 	app.get('/profile', isLoggedIn, function(req, res) {
 		res.render('profile.ejs', {
@@ -55,6 +62,7 @@ module.exports = function(app, passport) {
 		});
 		res.send(200);
 	});
+
 };
 
 // route middleware

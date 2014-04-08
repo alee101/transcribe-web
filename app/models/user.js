@@ -9,12 +9,23 @@ var TagSchema = new Schema({
 var NoteSchema = new Schema({
 	text: String,
 	annotations: [String],
+	created: {
+		type: Date,
+		default: Date.now
+	},
+	lastEdited: {
+		type: Date,
+		default: Date.now
+	}
 	// private: Boolean,
 	tags: [TagSchema]
 });
 
 var FolderSchema = new Schema({
-	title: String,
+	title: {
+		type: String,
+		default: 'All Notes'
+	},
 	notes: [NoteSchema]
 });
 
