@@ -21,18 +21,10 @@ var NoteSchema = new Schema({
 	tags: [TagSchema]
 });
 
-var FolderSchema = new Schema({
-	title: {
-		type: String,
-		default: 'All Notes'
-	},
-	notes: [NoteSchema]
-});
-
 var UserSchema = new Schema({
     email: String,
     password: String,
-    folders: [FolderSchema]
+    notes: [NoteSchema]
 });
 
 UserSchema.methods.generateHash = function(password) {

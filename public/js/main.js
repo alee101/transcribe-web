@@ -5,35 +5,29 @@ app.factory('getUserDataSvc', function($http) {
 		getData: function() {
 			user = {
 				'name': 'John',
-				'folders': [
-					{'title': 'Folder01',
-					 'notes': [
-						{'preview': 'This is a preview of some note.',
-						 'id': 123},
-						{'preview': 'This is a preview of some note.',
-						 'id': 234},
-						{'preview': 'This is a preview of some note.',
-						  'id': 345},
-						{'preview': 'This is a preview of some note.',
-						 'id': 456},
-						{'preview': 'This is a preview of some note.',
-						 'id': 567},
-						{'preview': 'This is a preview of some note.',
-						 'id': 678}
-					]},
-					{'title': 'Folder02',
-					 'notes': [
-						{'preview': 'This is a preview of some note in folder 2.',
-						 'id': 789},
-						{'preview': 'This is a preview of some note in folder 2.',
-						 'id': 987},
-						{'preview': 'This is a preview of some note in folder 2.',
-						  'id': 654},
-						{'preview': 'This is a preview of some note in folder 2.',
-						 'id': 321}
-					]},					
+				'notes': [
+					{'preview': 'This is a preview of some note.',
+					 'id': 123},
+					{'preview': 'This is a preview of some note.',
+					 'id': 234},
+					{'preview': 'This is a preview of some note.',
+					  'id': 345},
+					{'preview': 'This is a preview of some note.',
+					 'id': 456},
+					{'preview': 'This is a preview of some note.',
+					 'id': 567},
+					{'preview': 'This is a preview of some note.',
+					 'id': 678},
+					{'preview': 'This is a preview of some note in folder 2.',
+					 'id': 789},
+					{'preview': 'This is a preview of some note in folder 2.',
+					 'id': 987},
+					{'preview': 'This is a preview of some note in folder 2.',
+					  'id': 654},
+					{'preview': 'This is a preview of some note in folder 2.',
+					 'id': 321}
 				]
-			};
+			};				
 			return user;
 		}
 	};
@@ -55,19 +49,21 @@ app.directive('noteItem', function() {
 
 app.controller("MainCtrl", function($scope, $http, getUserDataSvc) {
 	var user = getUserDataSvc.getData();
-	$scope.folders = user.folders;
-	$scope.notes = user.folders[0].notes;
+	$scope.notes = user.notes;
 	$scope.mainNote = {};
 	$scope.editContent = '';
 	$scope.editView = false;
 
-	$scope.fetchNotes = function(folder) {
-		$scope.notes = folder.notes;
-	};
-
 	$scope.displayNote = function(note) {
-		$scope.mainNote = note;
-		$scope.editContent = note.preview;
+		var confirmation = true;
+		if ($scope.editView) {
+			confirmation = confirm('Are you sure you want to cancel editing?');
+		}
+		if (confirmation) {
+			$scope.editView = false;
+			$scope.mainNote = note;
+			$scope.editContent = note.preview;
+		}
 	};
 
 	$scope.enableEdit = function() {
