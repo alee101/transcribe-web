@@ -1,39 +1,5 @@
 var app = angular.module('transcriber', ['textAngular']);
 
-app.factory('getUserDataSvc', function($http) {
-	return {
-		getData: function() {
-			user = {
-				'name': 'John',
-				'notes': [
-					{'preview': 'This is a preview of some note.',
-					 'id': 123},
-					{'preview': 'This is a preview of some note.',
-					 'id': 234},
-					{'preview': 'This is a preview of some note.',
-					  'id': 345},
-					{'preview': 'This is a preview of some note.',
-					 'id': 456},
-					{'preview': 'This is a preview of some note.',
-					 'id': 567},
-					{'preview': 'This is a preview of some note.',
-					 'id': 678},
-					{'preview': 'This is a preview of some note in folder 2.',
-					 'id': 789},
-					{'preview': 'This is a preview of some note in folder 2.',
-					 'id': 987},
-					{'preview': 'This is a preview of some note in folder 2.',
-					  'id': 654},
-					{'preview': 'This is a preview of some note in folder 2.',
-					 'id': 321}
-				]
-			};				
-			return user;
-		}
-	};
-});
-
-
 app.directive('noteItem', function() {
 	return {
 		restrict: 'AE',
@@ -48,21 +14,23 @@ app.directive('noteItem', function() {
 
 
 app.controller("MainCtrl", function($scope, $http, getUserDataSvc) {
-	var user = getUserDataSvc.getData();
+	var user = window.newuser;
 	$scope.notes = user.notes;
 	$scope.mainNote = {};
 	$scope.editContent = '';
 	$scope.editView = false;
 
 	$scope.displayNote = function(note) {
-		var confirmation = true;
-		if ($scope.editView) {
+		var confirmation;
+		if ($scope.editView) { // if navigating to new note with unsaved note open
 			confirmation = confirm('Are you sure you want to cancel editing?');
+		} else {
+			confirmation = true;
 		}
 		if (confirmation) {
 			$scope.editView = false;
 			$scope.mainNote = note;
-			$scope.editContent = note.preview;
+			$scope.editContent = note.text;
 		}
 	};
 
@@ -71,12 +39,21 @@ app.controller("MainCtrl", function($scope, $http, getUserDataSvc) {
 	};
 
 	$scope.saveEdit = function() {
-		$scope.mainNote.preview = $scope.editContent;
+		$scope.mainNote.text = $scope.editContent;
 		$scope.editView = false;
+
+		// save note
+		$http.put('/api/note/'+user.id, $scope.mainNote)
+		.success(function (data) {
+			console.log(data);
+		})
+		.error(function (data) {
+			console.log('Error: ' + data);
+		});
 	};
 
 	$scope.cancelEdit = function() {
-		$scope.editContent = $scope.mainNote.preview;
+		$scope.editContent = $scope.mainNote.text
 		$scope.editView = false;
 	};
 });

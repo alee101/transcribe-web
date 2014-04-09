@@ -147,3 +147,6 @@ h1, .h1, h2, .h2, h3, .h3 {
   padding-top: 5px;
   float: right;
 }
+.note-panel {
+  margin: 15px;
+}

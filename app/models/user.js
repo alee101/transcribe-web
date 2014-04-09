@@ -16,7 +16,7 @@ var NoteSchema = new Schema({
 	lastEdited: {
 		type: Date,
 		default: Date.now
-	}
+	},
 	// private: Boolean,
 	tags: [TagSchema]
 });

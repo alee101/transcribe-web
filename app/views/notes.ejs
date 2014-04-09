@@ -13,6 +13,10 @@
     <script src="js/textAngular-sanitize.min.js"></script>
     <script src="js/textAngular.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        // ugly hack passing in user info
+        window.newuser = {"id": "<%= user.id %>", "notes": <%- JSON.stringify(user.notes) %> };
+    </script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
             <script src="http://getbootstrap.com/docs-assets/js/html5shiv.js"></script>
@@ -48,7 +52,7 @@
             <ul class="nav notes-list">
                 <li ng-repeat="note in notes" ng-click=displayNote(note)>
                     <a href='#'>
-                        <x-note-item preview=note.preview />
+                        <x-note-item preview=note.text />
                     </a>
                 </li>
             </ul>
@@ -60,7 +64,7 @@
             <div class="note-editor-container">
                 <!-- Some text -->
                 <div id="note_box" ng-show="editContent && !editView" ng-bind="editContent" ng-click="enableEdit()"></div>
-                <div text-angular ng-show="editView" ng-model="editContent"></div>
+                <div class="note-panel" text-angular ng-show="editView" ng-model="editContent"></div>
                 <div class="save-bar">
                     <a href="#" class="btn btn-success btn-large" ng-show="editView" ng-click="saveEdit()">Save</a>
                     <a href="#" class="btn btn-warning btn-large" ng-show="editView" ng-click="cancelEdit()">Cancel</a>
