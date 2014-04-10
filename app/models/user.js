@@ -3,7 +3,7 @@ var bcrypt   = require('bcrypt-nodejs');
 var Schema = mongoose.Schema;
 
 var TagSchema = new Schema({
-	name: String
+	text: String
 });
 
 var NoteSchema = new Schema({

@@ -90,6 +90,31 @@ module.exports = function(app, passport) {
 			}
 		});
 	});
+
+	// Save tags
+	app.put('/api/note/tags/:id', function (req, res) {
+		console.log(req.body);
+		User.findById(req.params.id, function (err, user) {
+			if (err) {
+				console.log(err);
+				res.send(404);
+			} else {
+				var note = user.notes.id(req.body._id);
+				note.tags = req.body.tags;
+				note.lastEdited = new Date();
+				user.save(function (err) {
+					if (err) {
+						console.log(err);
+						res.send(404);
+					}
+					else {
+						console.log('Saved note');
+						res.send(200);
+					}
+				});
+			}
+		});
+	});	
 };
 
 // route middleware

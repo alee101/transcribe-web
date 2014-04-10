@@ -57,14 +57,25 @@ app.controller("MainCtrl", function($scope, $http) {
 		$scope.editView = false;
 	};
 
-	// TODO
+
+	function saveTags() {
+		console.log($scope.mainNote);
+		$http.put('/api/note/tags/'+user.id, $scope.mainNote)
+		.success(function (data) {
+			console.log(data);
+		})
+		.error(function (data) {
+			console.log('Error: ' + data);
+		});		
+	}
+
 	$scope.addTag = function() {
 		console.log('Adding');
-		console.log($scope.mainNote);
+		saveTags();
 	};
 
 	$scope.removeTag = function() {
 		console.log('Removing');
-		console.log($scope.mainNote);
+		saveTags();
 	};
 });
