@@ -1,4 +1,4 @@
-var app = angular.module('transcriber', ['textAngular']);
+var app = angular.module('transcriber', ['textAngular', 'ngTagsInput']);
 
 app.directive('noteItem', function() {
 	return {
@@ -13,7 +13,7 @@ app.directive('noteItem', function() {
 });
 
 
-app.controller("MainCtrl", function($scope, $http, getUserDataSvc) {
+app.controller("MainCtrl", function($scope, $http) {
 	var user = window.newuser;
 	$scope.notes = user.notes;
 	$scope.mainNote = {};
@@ -55,5 +55,16 @@ app.controller("MainCtrl", function($scope, $http, getUserDataSvc) {
 	$scope.cancelEdit = function() {
 		$scope.editContent = $scope.mainNote.text
 		$scope.editView = false;
+	};
+
+	// TODO
+	$scope.addTag = function() {
+		console.log('Adding');
+		console.log($scope.mainNote);
+	};
+
+	$scope.removeTag = function() {
+		console.log('Removing');
+		console.log($scope.mainNote);
 	};
 });

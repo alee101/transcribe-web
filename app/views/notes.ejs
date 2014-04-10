@@ -6,12 +6,14 @@
     <meta name="description" content="description">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/ng-tags-input.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
     <link href="css/main.css" rel="stylesheet">
     <script src="js/angular.min.js"></script>
     <script src="js/textAngular-sanitize.min.js"></script>
     <script src="js/textAngular.js"></script>
+    <script src="js/ng-tags-input.js"></script>
     <script src="js/main.js"></script>
     <script>
         // ugly hack passing in user info
@@ -65,9 +67,14 @@
                 <!-- Some text -->
                 <div id="note_box" ng-show="editContent && !editView" ng-bind="editContent" ng-click="enableEdit()"></div>
                 <div class="note-panel" text-angular ng-show="editView" ng-model="editContent"></div>
-                <div class="save-bar">
-                    <a href="#" class="btn btn-success btn-large" ng-show="editView" ng-click="saveEdit()">Save</a>
-                    <a href="#" class="btn btn-warning btn-large" ng-show="editView" ng-click="cancelEdit()">Cancel</a>
+                <div class="bottom-bar">
+                    <div class="tags col-xs-12 col-sm-10" ng-show="editContent">
+                        <tags-input ng-model="mainNote.tags" max-length=15 on-tag-added="addTag()" on-tag-removed="removeTag()"></tags-input> 
+                    </div>
+                    <div class="save-bar col-xs-12 col-sm-2">
+                        <a href="#" class="btn btn-success btn-large" ng-show="editView" ng-click="saveEdit()">Save</a>
+                        <a href="#" class="btn btn-warning btn-large" ng-show="editView" ng-click="cancelEdit()">Cancel</a>
+                    </div>
                 </div>
             </div>
         </div>
