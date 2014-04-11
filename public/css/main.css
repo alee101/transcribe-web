@@ -1,5 +1,8 @@
 body {
   color: #525252;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 h1, .h1, h2, .h2, h3, .h3 {
   margin:0;
@@ -39,12 +42,16 @@ h1, .h1, h2, .h2, h3, .h3 {
 #sidebar-left {
   position:relative;
   z-index: inherit;
-  padding-bottom: 3000px !important;
-  margin-bottom: -3000px !important;
+/*  padding-bottom: 3000px !important;
+  margin-bottom: -3000px !important;*/
   background: #fefefe;
   /*border-right: 1px solid black;*/
   box-shadow: 0 0 1px #131313;
   /*background: #eee;*/
+  padding-left: 0px;
+  padding-right: 0px;
+  overflow: auto;
+  height: 600px;
   -webkit-transition: 0.2s;
   -moz-transition: 0.2s;
   -o-transition: 0.2s;
@@ -132,16 +139,31 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 .note-item {
   color: #333;
-  border-bottom: 1px solid #aaa;
+  /*border-bottom: 1px solid #aaa;*/
+  height: 60px;
 }
 .notes-list {
   padding-top: 15px;
 }
+.notes-list > li {
+  border-bottom: 1px solid #aaa;
+}
+.notes-list-head {
+  font-size: 18px;
+  border-bottom: 1px solid #aaa;
+  padding-bottom: 10px;
+  padding-left: 15px;
+}
+.notes-list-head .btn {
+  display: inline-block;
+  margin-left: 100px;
+}
 .note-editor-container {
-  padding-top: 15px;
+  padding-top: 10px;
 }
 .form-control {
   height: 300px;
+  overflow: auto;
 }
 .save-bar {
   padding-top: 5px;
@@ -149,4 +171,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 .note-panel {
   margin: 15px;
+}
+.note-selected {
+  background-color: #eee;
 }
