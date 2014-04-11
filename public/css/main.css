@@ -151,12 +151,14 @@ h1, .h1, h2, .h2, h3, .h3 {
 .notes-list-head {
   font-size: 18px;
   border-bottom: 1px solid #aaa;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   padding-left: 15px;
 }
 .notes-list-head .btn {
   display: inline-block;
-  margin-left: 100px;
+  position: relative;
+  float: right;
+  margin-right: 10px;
 }
 .note-editor-container {
   padding-top: 10px;
@@ -174,4 +176,9 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 .note-selected {
   background-color: #eee;
+}
+.no-results {
+  text-align: center;
+  color: #ccc;
+  padding-top: 15px;
 }

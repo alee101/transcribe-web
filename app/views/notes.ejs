@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col-xs-8 col-sm-4">
                         <div id="search">
-                            <input type="text" placeholder="search"/>
+                            <input ng-model="searchText" type="text" placeholder="search"/>
                             <i class="fa fa-search"></i>
                         </div>
                     </div>
@@ -53,14 +53,16 @@
         <div id="sidebar-left" class="col-xs-12 col-sm-3">
             <ul class="nav notes-list">
                 <div class="notes-list-head">
-                    All Notes
+                    <span ng-show="!searchText">All Notes</span>
+                    <span ng-show="searchText">Search results</span>
                     <button class="btn btn-default btn-primary"><span class="glyphicon glyphicon-plus"></span> Add new note</button>
                 </div>
-                <li ng-repeat="note in notes" ng-click=displayNote(note) ng-class="{'note-selected': mainNote===note}">
+                <li ng-repeat="note in notes | filter:searchText" ng-click=displayNote(note) ng-class="{'note-selected': mainNote===note}">
                     <a href='#'>
                         <x-note-item preview=note.text />
                     </a>
                 </li>
+                <div class="no-results" ng-show="(notes | filter:searchText).length == 0"><i>no results found</i></div>
             </ul>
         </div>
 
