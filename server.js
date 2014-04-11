@@ -14,7 +14,8 @@ require('./config/passport')(passport);
 app.configure(function() {
 	app.use(express.logger('dev')); 
 	app.use(express.cookieParser()); 
-	app.use(express.bodyParser());
+	app.use(express.json());
+	app.use(express.urlencoded());
 
 	app.set('view engine', 'ejs');
 	app.set('views', __dirname + '/app/views');
