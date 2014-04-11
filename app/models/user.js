@@ -3,11 +3,17 @@ var bcrypt   = require('bcrypt-nodejs');
 var Schema = mongoose.Schema;
 
 var TagSchema = new Schema({
-	text: String
+	text: {
+		type: String,
+		required: true
+	}
 });
 
 var NoteSchema = new Schema({
-	text: String,
+	text: {
+		type: String,
+		required: true
+	},
 	annotations: [String],
 	created: {
 		type: Date,
@@ -22,8 +28,14 @@ var NoteSchema = new Schema({
 });
 
 var UserSchema = new Schema({
-    email: String,
-    password: String,
+    email: {
+		type: String,
+		required: true
+	},
+    password: {
+		type: String,
+		required: true
+	},
     notes: [NoteSchema]
 });
 
