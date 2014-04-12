@@ -1,0 +1,65 @@
+<link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+
+<style>
+    #logo {
+      position:relative;
+      /*background: #525252;*/
+    }
+    #logo a {
+      color: #fff;
+      font-family: 'Righteous', cursive;
+      display: block;
+      font-size: 20px;
+      line-height: 50px;
+      -webkit-transition: 0.5s;
+      -moz-transition: 0.5s;
+      -o-transition: 0.5s;
+      transition: 0.5s;
+    }
+    #logo a:hover {
+      background-position: right 25px;
+      text-decoration: none;
+    }
+    .navbar {
+      margin: 0;
+      border: 0;
+      position: fixed;
+      top:0;
+      left: 0;
+      width:100%;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      box-shadow: 0 1px 2px #272727;
+      z-index: 2000;
+      background: #525252;
+    }
+    .navbar-nav>li>a {
+        color: white;
+    }
+    .navbar-nav>li>a:hover {
+        background: #323232;
+    }
+</style>    
+
+<!--Start Header-->
+<header class="navbar">
+    <div class="container-fluid expanded-panel">
+        <div class="row">
+            <div id="logo" class="col-xs-12 col-sm-2">
+                <a href="/">TranScribe</a>
+            </div>
+            <!-- <div id="top-panel" class="col-xs-12 col-sm-10"> -->
+                <div class="navbar-collapse collapse">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="/signup">Sign up</a></li>
+                    <li><a href="/login">Login</a></li>
+                  </ul>
+                </div><!--/.nav-collapse -->
+            <!-- </div> -->
+        </div>
+    </div>
+</header>
+<!--End Header-->
+
+

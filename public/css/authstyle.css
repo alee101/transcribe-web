@@ -1,0 +1,20 @@
+body {
+  /*background: #ebebeb;*/
+}
+
+h1 {
+  text-align: center;
+}
+
+.main-panel {
+  margin-top: 180px;
+  background: #fefefe;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
+.form-action {
+  margin: 0;
+  text-align: center;
+}

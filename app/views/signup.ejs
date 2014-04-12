@@ -1,21 +1,18 @@
 <!doctype html>
 <html>
 <head>
-	<title>Node Authentication</title>
+	<title>TranScribe</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-	<style>
-		body 		{ padding-top:80px; }
-	</style>
+	<link href="css/authstyle.css" rel="stylesheet">
 </head>
 <body>
+<% include header %>
 <div class="container">
 
-<div class="col-sm-6 col-sm-offset-3">
+<div class="main-panel col-sm-4 col-sm-offset-4">
 
-	<h1><span class="fa fa-sign-in"></span> Signup</h1>
+	<h1>Signup</h1>
 
-	<!-- show any messages that come back with authentication -->
 	<% if (message.length > 0) { %>
 		<div class="alert alert-danger"><%= message %></div>
 	<% } %>
@@ -31,14 +28,10 @@
 			<input type="password" class="form-control" name="password">
 		</div>
 
-		<button type="submit" class="btn btn-warning btn-lg">Signup</button>
+		<button type="submit" class="btn btn-primary btn-lg">Signup</button>
 	</form>
-
 	<hr>
-
 	<p>Already have an account? <a href="/login">Login</a></p>
-	<p>Or go <a href="/">home</a>.</p>
-
 </div>
 
 </div>
