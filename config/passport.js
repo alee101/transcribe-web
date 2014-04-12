@@ -40,6 +40,9 @@ module.exports = function(passport) {
                 newUser.email = email;
                 newUser.password = newUser.generateHash(password); // use the generateHash function in our user model
 
+                // create default note
+                newUser.notes.push({ text: 'Welcome to TranScribe!' });
+                
 				// save the user
                 newUser.save(function(err) {
                     if (err)
