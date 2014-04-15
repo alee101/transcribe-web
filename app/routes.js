@@ -46,25 +46,61 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 
-	app.post('/image', function (req, res) {
-		var img = __dirname + '/test.jpg';
-		// var img = __dirname + '/' + new Date().toISOString() + '.jpg';
-		fs.writeFile(img, new Buffer(req.body.image, 'base64'), function (err) {
-			if (err) console.log(err);
-			else {
-				tesseract.process(img, function(err, text) {
-					if(err) console.log(err);
-					else {
-						console.log(text);
-					}
-				});
-			}
-		});
-		res.send(200);
-	});
-
 
 	// API routes
+
+	// Authenticate phone users
+	app.post('/api/auth', function (req, res) {
+		console.log('Received phone authentication request');
+		console.log(req.body);
+		User.findOne({ 'email' : req.body.email }, function (err, user) {
+			if (err) {
+				console.log(err);
+				res.send(401);
+			} else if (!user || !user.validPassword(req.body.password)) {
+				console.log('Invalid login');
+				res.send(401);
+			} else {
+				console.log(user.id);
+				res.send(200, user.id);
+			}
+		});
+	});
+
+	// Add new note extracting text from image
+	app.post('/api/image', function (req, res) {
+		console.log('Received image');
+		User.findById(req.body.token, function (err, user) {
+			if (err) {
+				console.log(err);
+				res.send(401);
+			} else if (!user || user.email !== req.body.email) {
+				console.log(req.body.token);
+				console.log('Could not validate user');
+				res.send(401);
+			} else {
+				var img = __dirname + '/test.jpg';
+				// var img = __dirname + '/' + new Date().toISOString() + '.jpg';
+				fs.writeFile(img, new Buffer(req.body.image, 'base64'), function (err) {
+					if (err) console.log(err);
+					else {
+						tesseract.process(img, function(err, text) {
+							if(err) console.log(err);
+							else {
+								console.log(text);
+								user.notes.unshift({ text: text });
+								user.save(function (err) {
+									if (err) console.log(err);
+									else console.log('Saved note');
+								});
+							}
+						});
+					}
+				});
+				res.send(200);				
+			}
+		});
+	});
 
 	// Save note
 	app.put('/api/note/:id', function (req, res) {
@@ -114,7 +150,8 @@ module.exports = function(app, passport) {
 				});
 			}
 		});
-	});	
+	});
+
 };
 
 // route middleware
