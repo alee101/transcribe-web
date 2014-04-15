@@ -78,4 +78,8 @@ app.controller("MainCtrl", function($scope, $http) {
 		console.log('Removing');
 		saveTags();
 	};
+
+	$scope.previewFilter = function(text) {
+		return text.substring(0, 120);
+	};
 });
