@@ -4,31 +4,38 @@
 	<title>TranScribe</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/authstyle.css" rel="stylesheet">
+	<script src="js/angular.min.js"></script>
+	<script src="js/form.js"></script>
 </head>
-<body>
+<body ng-app="validationApp" ng-controller="mainController">
 <% include header %>
 <div class="container">
 
 <div class="main-panel col-sm-4 col-sm-offset-4">
 
-	<h1>Signup</h1>
+	<h1>Sign up</h1>
 
 	<% if (message.length > 0) { %>
 		<div class="alert alert-danger"><%= message %></div>
 	<% } %>
 
-	<!-- LOGIN FORM -->
-	<form action="/signup" method="post">
-		<div class="form-group">
+	<form name="signupForm" action="/signup" method="post">
+		<div class="form-group" ng-class="{ 'has-error': signupForm.email.$invalid && !signupForm.email.$pristine }">
 			<label>Email</label>
-			<input type="text" class="form-control" name="email">
+			<input type="email" class="form-control" name="email" ng-model="user.email" ng-maxlength="64">
+			<p ng-show="signupForm.email.$invalid && !signupForm.email.$pristine" class="help-block">Please enter a valid email.</p>
+			<p ng-show="signupForm.email.$error.maxlength" class="help-block">Please use an email less than 64 characters.</p>
+			<p ng-show="signupForm.email.$error.required" class="help-block">Email is required.</p>
 		</div>
-		<div class="form-group">
+		<div class="form-group" ng-class="{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
 			<label>Password</label>
-			<input type="password" class="form-control" name="password">
+			<input type="password" class="form-control" name="password" ng-model="user.password" ng-minlength="5" ng-maxlength="64">
+			<p ng-show="signupForm.password.$error.minlength" class="help-block">Password must be at least 5 characters.</p>
+            <p ng-show="signupForm.password.$error.maxlength" class="help-block">Password can't be longer than 64 characters.</p>
+            <p ng-show="signupForm.password.$error.required" class="help-block">Password is required.</p>
 		</div>
 
-		<button type="submit" class="btn btn-primary btn-lg">Signup</button>
+		<button type="submit" class="btn btn-primary btn-lg" ng-disabled="signupForm.$invalid">Sign up</button>
 	</form>
 	<hr>
 	<p>Already have an account? <a href="/login">Login</a></p>

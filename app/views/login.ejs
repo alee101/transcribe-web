@@ -4,8 +4,10 @@
 	<title>TranScribe</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/authstyle.css" rel="stylesheet">
+	<script src="js/angular.min.js"></script>
+	<script src="js/form.js"></script>
 </head>
-<body>
+<body ng-app="validationApp" ng-controller="mainController">
 <% include header %>
 <div class="container">
 
@@ -17,17 +19,19 @@
 		<div class="alert alert-danger"><%= message %></div>
 	<% } %>
 
-	<form action="/login" method="post">
-		<div class="form-group">
+	<form name="loginForm" action="/login" method="post">
+		<div class="form-group" ng-class="{ 'has-error': loginForm.email.$invalid && !loginForm.email.$pristine }">
 			<label>Email</label>
-			<input type="text" class="form-control" name="email">
+			<input type="email" class="form-control" name="email" ng-model="user.email" ng-maxlength="64" required>
+			<p ng-show="(loginForm.email.$invalid && !loginForm.email.$pristine) || loginForm.email.$error.maxlength" class="help-block">Invalid email.</p>
 		</div>
-		<div class="form-group">
+		<div class="form-group" ng-class="{ 'has-error': loginForm.password.$invalid && !loginForm.password.$pristine }">
 			<label>Password</label>
-			<input type="password" class="form-control" name="password">
+			<input type="password" class="form-control" name="password" ng-model="user.password" ng-maxlength="64" required>
+            <p ng-show="loginForm.password.$error.maxlength" class="help-block">Invalid password.</p>
 		</div>
 		<!-- <div class="form-action"> -->
-			<button type="submit" class="btn btn-primary btn-lg">Login</button>
+			<button type="submit" class="btn btn-primary btn-lg" ng-disabled="loginForm.$invalid">Login</button>
 		<!-- </div> -->
 	</form>
 	<hr>
