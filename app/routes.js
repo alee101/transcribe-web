@@ -102,6 +102,18 @@ module.exports = function(app, passport) {
 		});
 	});
 
+	// Refresh notes
+	app.get('/api/notes/:id', function (req, res) {
+		User.findById(req.params.id, function (err, user) {
+			if (err) {
+				console.log(err);
+				res.send(404);
+			} else {
+				res.json(user.notes);
+			}
+		});
+	});
+
 	// Save note
 	app.put('/api/note/:id', function (req, res) {
 		console.log(req.body);

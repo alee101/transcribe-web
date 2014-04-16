@@ -79,6 +79,7 @@ h1, .h1, h2, .h2, h3, .h3 {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  overflow: auto;
 }
 .full-content {
   overflow: hidden;
@@ -154,11 +155,10 @@ h1, .h1, h2, .h2, h3, .h3 {
   padding-bottom: 20px;
   padding-left: 15px;
 }
-.notes-list-head .btn {
-  display: inline-block;
-  position: relative;
-  float: right;
-  margin-right: 10px;
+.notes-list-head .fa {
+  padding-top: 3px;
+  padding-left: 10px;
+  cursor: pointer;
 }
 .note-editor-container {
   padding-top: 10px;

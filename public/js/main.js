@@ -13,7 +13,7 @@ app.directive('noteItem', function() {
 });
 
 
-app.controller("MainCtrl", function($scope, $http) {
+app.controller("MainCtrl", function ($scope, $http) {
 	var user = window.newuser;
 	$scope.notes = user.notes;
 	$scope.mainNote = {};
@@ -32,6 +32,17 @@ app.controller("MainCtrl", function($scope, $http) {
 			$scope.mainNote = note;
 			$scope.editContent = note.text;
 		}
+	};
+
+	$scope.refreshNotes = function() {
+		console.log('Refreshing note');
+		$http.get('/api/notes/'+user.id)
+		.success(function (notes) {
+			$scope.notes = notes;			
+		})
+		.error(function (data) {
+			console.log('Error: ' + data);
+		});
 	};
 
 	$scope.enableEdit = function() {
@@ -80,6 +91,6 @@ app.controller("MainCtrl", function($scope, $http) {
 	};
 
 	$scope.previewFilter = function(text) {
-		return text.substring(0, 120);
+		return text.substring(0, 80);
 	};
 });
