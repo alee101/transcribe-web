@@ -1,3 +1,8 @@
 <div class="note-item">
-	<p>{{preview}}</p>
+	<div class="col-xs-10 col-sm-10">
+		{{previewFilter(note.text)}}
+	</div>
+	<div class="col-xs-2 col-sm-2">
+		<i class="fa fa-trash-o" ng-click="deleteNote(note)"></i>
+	</div>
 </div>

@@ -139,6 +139,29 @@ module.exports = function(app, passport) {
 		});
 	});
 
+	// Delete note
+	app.post('/api/note/delete/:id', function (req, res) {
+		console.log(req.body);
+		User.findById(req.params.id, function (err, user) {
+			if (err) {
+				console.log(err);
+				res.send(404);
+			} else {
+				var note = user.notes.id(req.body._id).remove();
+				user.save(function (err) {
+					if (err) {
+						console.log(err);
+						res.send(404);
+					}
+					else {
+						console.log('Deleted note');
+						res.send(200);
+					}
+				});
+			}
+		});
+	});
+
 	// Save tags
 	app.put('/api/note/tags/:id', function (req, res) {
 		console.log(req.body);

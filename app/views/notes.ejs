@@ -59,7 +59,7 @@
                 </div>
                 <li ng-repeat="note in notes | filter:searchText" ng-click=displayNote(note) ng-class="{'note-selected': mainNote===note}">
                     <a href='#'>
-                        <x-note-item preview=previewFilter(note.text) />
+                        <x-note-item note=note />
                     </a>
                 </li>
                 <div class="no-results" ng-show="(notes | filter:searchText).length == 0"><i>no results found</i></div>

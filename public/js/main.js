@@ -5,10 +5,26 @@ app.directive('noteItem', function() {
 		restrict: 'AE',
 		replace: true,
 		scope: {
-			title: '=',
-			preview: '='
+			note: '='
 		},
-		templateUrl: 'noteItem.html'
+		templateUrl: 'noteItem.html',
+		link: function($scope, element, attrs) {
+			$scope.previewFilter = function(text) {
+				return text.substring(0, 80);
+			};
+
+			$scope.deleteNote = function(note) {
+				var confirmation = confirm('Delete this note?');
+				if (confirmation) {
+					// remove from sidebar
+					var index = $scope.$parent.notes.indexOf(note);
+					$scope.$parent.notes.splice(index, 1);
+
+					// delete note
+					$scope.$parent.deleteNote(note);
+				}
+			};
+		}
 	};
 });
 
@@ -32,6 +48,22 @@ app.controller("MainCtrl", function ($scope, $http) {
 			$scope.mainNote = note;
 			$scope.editContent = note.text;
 		}
+	};
+
+	$scope.deleteNote = function(note) {
+		// delete note
+		$http.post('/api/note/delete/'+user.id, note)
+		.success(function (data) {
+			console.log(data);
+			if ($scope.mainNote === note) { // if note to delete in main view
+				$scope.mainNote = {};
+				$scope.editContent = '';
+				$scope.editView = false;
+			}
+		})
+		.error(function (data) {
+			console.log('Error: ' + data);
+		});
 	};
 
 	$scope.refreshNotes = function() {
@@ -88,9 +120,5 @@ app.controller("MainCtrl", function ($scope, $http) {
 	$scope.removeTag = function() {
 		console.log('Removing');
 		saveTags();
-	};
-
-	$scope.previewFilter = function(text) {
-		return text.substring(0, 80);
 	};
 });

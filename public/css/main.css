@@ -57,6 +57,9 @@ h1, .h1, h2, .h2, h3, .h3 {
   -o-transition: 0.2s;
   transition: 0.2s;
 }
+.nav>li>a {
+  padding: 10px 0px;
+}
 #content {
   position: relative;
   z-index: 10;
