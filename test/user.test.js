@@ -1,12 +1,12 @@
 var should = require('should');
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
 var User = require('../app/models/user');
-var configDB = require('../config/database.js');
+// var configDB = require('../config/database.js');
 
-mongoose.connect(configDB.url);
+// mongoose.connect(configDB.url);
 
 
-describe('Users', function() {
+describe('Users', function () {
 	var user, dupuser;
 
 	before(function (done) {
@@ -20,7 +20,7 @@ describe('Users', function() {
 		done();
 	});
 
-	describe('New User', function() {
+	describe('New User', function () {
 		it('should not have test user', function (done) {
 			User.find({ email: 'test@test.com' }, function (err, users) {
 				users.should.have.length(0);
@@ -44,6 +44,16 @@ describe('Users', function() {
 			user.email = '';
 			return user.save(function (err) {
 				should.exist(err);
+				err.errors.email.message.should.include('required');
+				done();
+			});
+		});
+
+		it('should fail to save user with invalid length email', function (done) {
+			user.email = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaaaa.com';
+			return user.save(function (err) {
+				should.exist(err);
+				err.errors.email.message.should.equal('Email cannot exceed 64 characters');
 				done();
 			});
 		});
@@ -52,14 +62,33 @@ describe('Users', function() {
 			user.email = 'test@test.com';
 			user.password = '';
 			return user.save(function (err) {
+				should.exist(err);
+				err.errors.password.message.should.include('required');
+				done();
+			});
+		});
+
+		it('should fail to save user with invalid length password (too short)', function (done) {
+			user.password = 'abcd';
+			return user.save(function (err) {
+				should.exist(err);
+				err.errors.password.message.should.equal('Invalid password length');
+				done();
+			});
+		});
+
+		it('should fail to save user with invalid length password (too long)', function (done) {
+			user.password = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+			return user.save(function (err) {
 				user.password = 'password';
 				should.exist(err);
+				err.errors.password.message.should.include('Invalid password length');
 				done();
 			});
 		});
 	});
 
-	describe('Notes', function() {
+	describe('Notes', function () {
 		it('should save new notes', function (done) {
 			var notes = ['Test 1', 'Test 2', 'Test 3'];
 			for (var i in notes) {
@@ -69,7 +98,7 @@ describe('Users', function() {
 		});
 	});
 
-	describe('Tags', function() {
+	describe('Tags', function () {
 		it('should save tags', function (done) {
 			var tags = ['Tag1', 'Tag2', 'Tag3'];
 			for (var i in tags) {

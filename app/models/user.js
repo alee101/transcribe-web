@@ -39,6 +39,14 @@ var UserSchema = new Schema({
     notes: [NoteSchema]
 });
 
+UserSchema.path('email').validate(function (email) {
+	return email.length <= 64;
+}, 'Email cannot exceed 64 characters');
+
+UserSchema.path('password').validate(function (password) {
+	return ((password.length <= 64) && (password.length >= 5));
+}, 'Invalid password length');
+
 UserSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };

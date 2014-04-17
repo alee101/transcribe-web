@@ -25,10 +25,11 @@ app.configure(function() {
 	app.use(passport.initialize());
 	app.use(passport.session());
 	app.use(flash());
-
 });
 
 require('./app/routes.js')(app, passport);
 
 app.listen(port);
 console.log('Listening on port ' + port);
+
+module.exports = app;

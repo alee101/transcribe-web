@@ -21,6 +21,18 @@ module.exports = function(passport) {
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) {
+        if (!email || !password) {
+            return done(null, false, req.flash('loginMessage', 'Email and password required'));
+        }
+
+        if (!validEmail(email)) {
+            return done(null, false, req.flash('loginMessage', 'Email cannot exceed 64 characters'));
+        }
+
+        if (!validPassword(password)) {
+            return done(null, false, req.flash('loginMessage', 'Password must be between 5 and 64 characters'));
+        }
+
 		// find a user whose email is the same as the forms email
 		// we are checking to see if the user trying to login already exists
         User.findOne({ 'email' :  email }, function(err, user) {
@@ -59,6 +71,18 @@ module.exports = function(passport) {
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) { // callback with email and password from our form
+        if (!email || !password) {
+            return done(null, false, req.flash('loginMessage', 'Email and password required'));
+        }
+
+        if (!validEmail(email)) {
+            return done(null, false, req.flash('loginMessage', 'Invalid email'));
+        }
+
+        if (!validPassword(password)) {
+            return done(null, false, req.flash('loginMessage', 'Invalid password'));
+        }
+
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
         User.findOne({ 'email' :  email }, function(err, user) {
@@ -77,3 +101,11 @@ module.exports = function(passport) {
         });
     }));
 };
+
+function validEmail(email) {
+    return email.length <= 64;
+}
+
+function validPassword(password) {
+    return ((password.length <= 64) && (password.length >= 5));
+}
