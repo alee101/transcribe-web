@@ -1,5 +1,26 @@
 var app = angular.module('transcriber', ['textAngular', 'ngTagsInput']);
 
+app.factory('noteService', function ($http) {
+	return {
+		saveNote: function(note) {
+			return $http.put('/api/note', note);
+		},
+
+		deleteNote: function(noteId) {
+			return $http.delete('/api/note/delete/'+noteId);
+		},
+
+		refreshNotes: function() {
+			return $http.get('/api/notes');
+		},
+
+		saveTags: function(note) {
+			return $http.put('/api/note/tags', note);
+		}
+	}
+});
+
+
 app.directive('noteItem', function() {
 	return {
 		restrict: 'AE',
@@ -29,7 +50,7 @@ app.directive('noteItem', function() {
 });
 
 
-app.controller("MainCtrl", function ($scope, $http) {
+app.controller("MainCtrl", function ($scope, noteService) {
 	var user = window.newuser;
 	$scope.notes = user.notes;
 	$scope.mainNote = {};
@@ -51,8 +72,7 @@ app.controller("MainCtrl", function ($scope, $http) {
 	};
 
 	$scope.deleteNote = function(note) {
-		// delete note
-		$http.post('/api/note/delete/'+user.id, note)
+		noteService.deleteNote(note._id)
 		.success(function (data) {
 			console.log(data);
 			if ($scope.mainNote === note) { // if note to delete in main view
@@ -62,18 +82,18 @@ app.controller("MainCtrl", function ($scope, $http) {
 			}
 		})
 		.error(function (data) {
-			console.log('Error: ' + data);
+			console.log('Error deleting note');
 		});
 	};
 
 	$scope.refreshNotes = function() {
 		console.log('Refreshing note');
-		$http.get('/api/notes/'+user.id)
+		noteService.refreshNotes()
 		.success(function (notes) {
 			$scope.notes = notes;			
 		})
 		.error(function (data) {
-			console.log('Error: ' + data);
+			console.log('Error refreshing notes');
 		});
 	};
 
@@ -85,13 +105,12 @@ app.controller("MainCtrl", function ($scope, $http) {
 		$scope.mainNote.text = $scope.editContent;
 		$scope.editView = false;
 
-		// save note
-		$http.put('/api/note/'+user.id, $scope.mainNote)
+		noteService.saveNote($scope.mainNote)
 		.success(function (data) {
 			console.log(data);
 		})
 		.error(function (data) {
-			console.log('Error: ' + data);
+			console.log('Error saving note');
 		});
 	};
 
@@ -100,25 +119,19 @@ app.controller("MainCtrl", function ($scope, $http) {
 		$scope.editView = false;
 	};
 
-
-	function saveTags() {
-		console.log($scope.mainNote);
-		$http.put('/api/note/tags/'+user.id, $scope.mainNote)
-		.success(function (data) {
-			console.log(data);
-		})
-		.error(function (data) {
-			console.log('Error: ' + data);
-		});		
-	}
-
 	$scope.addTag = function() {
 		console.log('Adding');
-		saveTags();
+		noteService.saveTags($scope.mainNote)
+		.error(function (data) {
+			console.log('Error adding tag');
+		});
 	};
 
 	$scope.removeTag = function() {
 		console.log('Removing');
-		saveTags();
+		noteService.saveTags($scope.mainNote)
+		.error(function (data) {
+			console.log('Error removing tag');
+		});
 	};
 });

@@ -5,11 +5,11 @@ var tesseract = require('node-tesseract');
 
 module.exports = function(app, passport) {
 
-	app.get('/', function(req, res) {
+	app.get('/', function (req, res) {
 		res.render('index.ejs');
 	});
 
-	app.get('/login', function(req, res) {
+	app.get('/login', function (req, res) {
 		res.render('login.ejs', { message: req.flash('loginMessage') });
 	});
 
@@ -19,7 +19,7 @@ module.exports = function(app, passport) {
 		failureFlash : true
 	}));
 
-	app.get('/signup', function(req, res) {
+	app.get('/signup', function (req, res) {
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	});
 
@@ -29,25 +29,25 @@ module.exports = function(app, passport) {
 		failureFlash : true
 	}));
 
-	app.get('/notes', isLoggedIn, function(req, res) {
+	app.get('/notes', isLoggedIn, function (req, res) {
 		res.render('notes.ejs', {
 			user : req.user
 		});
 	});
 
-	app.get('/profile', isLoggedIn, function(req, res) {
+	app.get('/profile', isLoggedIn, function (req, res) {
 		res.render('profile.ejs', {
 			user : req.user
 		});
 	});
 
-	app.get('/logout', function(req, res) {
+	app.get('/logout', function (req, res) {
 		req.logout();
 		res.redirect('/');
 	});
 
 
-	// API routes
+	// API Routes
 
 	// Authenticate phone users
 	app.post('/api/auth', function (req, res) {
@@ -103,8 +103,8 @@ module.exports = function(app, passport) {
 	});
 
 	// Refresh notes
-	app.get('/api/notes/:id', function (req, res) {
-		User.findById(req.params.id, function (err, user) {
+	app.get('/api/notes', isLoggedIn, function (req, res) {
+		User.findById(req.user.id, function (err, user) {
 			if (err) {
 				console.log(err);
 				res.send(404);
@@ -115,9 +115,9 @@ module.exports = function(app, passport) {
 	});
 
 	// Save note
-	app.put('/api/note/:id', function (req, res) {
+	app.put('/api/note', isLoggedIn, function (req, res) {
 		console.log(req.body);
-		User.findById(req.params.id, function (err, user) {
+		User.findById(req.user.id, function (err, user) {
 			if (err) {
 				console.log(err);
 				res.send(404);
@@ -140,14 +140,14 @@ module.exports = function(app, passport) {
 	});
 
 	// Delete note
-	app.post('/api/note/delete/:id', function (req, res) {
+	app.delete('/api/note/delete/:id', isLoggedIn, function (req, res) {
 		console.log(req.body);
-		User.findById(req.params.id, function (err, user) {
+		User.findById(req.user.id, function (err, user) {
 			if (err) {
 				console.log(err);
 				res.send(404);
 			} else {
-				var note = user.notes.id(req.body._id).remove();
+				var note = user.notes.id(req.params.id).remove();
 				user.save(function (err) {
 					if (err) {
 						console.log(err);
@@ -163,9 +163,9 @@ module.exports = function(app, passport) {
 	});
 
 	// Save tags
-	app.put('/api/note/tags/:id', function (req, res) {
+	app.put('/api/note/tags', isLoggedIn, function (req, res) {
 		console.log(req.body);
-		User.findById(req.params.id, function (err, user) {
+		User.findById(req.user.id, function (err, user) {
 			if (err) {
 				console.log(err);
 				res.send(404);
@@ -186,8 +186,8 @@ module.exports = function(app, passport) {
 			}
 		});
 	});
-
 };
+
 
 // route middleware
 function isLoggedIn(req, res, next) {
