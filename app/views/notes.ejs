@@ -57,12 +57,12 @@
                     <span ng-show="searchText">Search results</span>
                     <i class="fa fa-refresh" ng-click="refreshNotes()"></i>
                 </div>
-                <li ng-repeat="note in notes | filter:searchText" ng-click=displayNote(note) ng-class="{'note-selected': mainNote===note}">
+                <li ng-repeat="note in notes | filter:multiFilter" ng-click=displayNote(note) ng-class="{'note-selected': mainNote===note}">
                     <a href='#'>
                         <x-note-item note=note />
                     </a>
                 </li>
-                <div class="no-results" ng-show="(notes | filter:searchText).length == 0"><i>no results found</i></div>
+                <div class="no-results" ng-show="(notes | filter:multiFilter).length == 0"><i>no results found</i></div>
             </ul>
         </div>
 

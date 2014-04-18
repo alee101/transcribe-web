@@ -134,4 +134,27 @@ app.controller("MainCtrl", function ($scope, noteService) {
 			console.log('Error removing tag');
 		});
 	};
+
+	$scope.multiFilter = function(note) {
+		if (!$scope.searchText) 
+			return true;
+
+		var queries = $scope.searchText.split(' ').map(function (query) { return query.toLowerCase(); });
+		if (searchSub(note.text.toLowerCase(), queries)) 
+			return true;
+
+		for (var i = 0; i < note.tags.length; i++) {
+			if (searchSub(note.tags[i].text.toLowerCase(), queries)) 
+				return true;
+		}
+		return false;
+	};
+
+	function searchSub(txt, queries) {
+		for (var i = 0; i < queries.length; i++) {
+			if (txt.indexOf(queries[i]) === -1)
+				return false;
+		}
+		return true;
+	}
 });
