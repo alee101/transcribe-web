@@ -2,6 +2,10 @@ var app = angular.module('transcriber', ['textAngular', 'ngTagsInput']);
 
 app.factory('noteService', function ($http) {
 	return {
+		addNote: function(note) {
+			return $http.post('/api/note', note);
+		},
+
 		saveNote: function(note) {
 			return $http.put('/api/note', note);
 		},
@@ -117,6 +121,18 @@ app.controller("MainCtrl", function ($scope, noteService) {
 	$scope.cancelEdit = function() {
 		$scope.editContent = $scope.mainNote.text
 		$scope.editView = false;
+	};
+
+	$scope.addNote = function() {
+		$scope.notes.unshift({ text: 'New note' });
+		noteService.addNote($scope.notes[0])
+		.success(function (data) {
+			console.log(data);
+			$scope.notes[0] = data.note;
+		})
+		.error(function (data) {
+			console.log('Error saving new note');
+		});
 	};
 
 	$scope.addTag = function() {

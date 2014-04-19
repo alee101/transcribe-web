@@ -56,6 +56,7 @@
                     <span ng-show="!searchText">All Notes</span>
                     <span ng-show="searchText">Search results</span>
                     <i class="fa fa-refresh" ng-click="refreshNotes()"></i>
+                    <i class="fa fa-plus" ng-click="addNote()"></i>
                 </div>
                 <li ng-repeat="note in notes | filter:multiFilter" ng-click=displayNote(note) ng-class="{'note-selected': mainNote===note}">
                     <a href='#'>

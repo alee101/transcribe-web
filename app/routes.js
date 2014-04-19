@@ -114,7 +114,30 @@ module.exports = function(app, passport) {
 		});
 	});
 
-	// Save note
+
+	// Save new note
+	app.post('/api/note', isLoggedIn, function (req, res) {
+		User.findById(req.user.id, function (err, user) {
+			if (err) {
+				console.log(err);
+				res.send(404);
+			} else {
+				user.notes.unshift({ text: req.body.text });
+				user.save(function (err) {
+					if (err) {
+						console.log(err);
+						res.send(404);
+					}
+					else {
+						console.log('Saved new note');
+						res.send(200, { note: user.notes[0] });
+					}
+				});
+			}
+		});		
+	})
+
+	// Save note edit
 	app.put('/api/note', isLoggedIn, function (req, res) {
 		console.log(req.body);
 		User.findById(req.user.id, function (err, user) {
