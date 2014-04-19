@@ -2,7 +2,7 @@ body {
   color: #525252;
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 h1, .h1, h2, .h2, h3, .h3 {
   margin:0;
@@ -67,7 +67,7 @@ h1, .h1, h2, .h2, h3, .h3 {
   box-shadow: 0 0 4px #131313;
   padding-bottom: 3000px !important;
   margin-bottom: -2980px !important;
-  overflow: hidden;
+  overflow-y: hidden;
   -webkit-transition: 0.2s;
   -moz-transition: 0.2s;
   -o-transition: 0.2s;
@@ -99,7 +99,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 #main {
   margin-top: 50px;
   min-height: 800px;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 #search {
   position: relative;
