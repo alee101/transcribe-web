@@ -22,19 +22,17 @@ module.exports = function(passport) {
     },
     function(req, email, password, done) {
         if (!email || !password) {
-            return done(null, false, req.flash('loginMessage', 'Email and password required'));
+            return done(null, false, req.flash('signupMessage', 'Email and password required'));
         }
 
         if (!validEmail(email)) {
-            return done(null, false, req.flash('loginMessage', 'Email cannot exceed 64 characters'));
+            return done(null, false, req.flash('signupMessage', 'Email cannot exceed 64 characters'));
         }
 
         if (!validPassword(password)) {
-            return done(null, false, req.flash('loginMessage', 'Password must be between 5 and 64 characters'));
+            return done(null, false, req.flash('signupMessage', 'Password must be between 5 and 64 characters'));
         }
 
-		// find a user whose email is the same as the forms email
-		// we are checking to see if the user trying to login already exists
         User.findOne({ 'email' :  email }, function(err, user) {
             // if there are any errors, return the error
             if (err)
@@ -50,7 +48,7 @@ module.exports = function(passport) {
 
                 // set the user's local credentials
                 newUser.email = email;
-                newUser.password = newUser.generateHash(password); // use the generateHash function in our user model
+                newUser.password = newUser.generateHash(password);
 
                 // create default note
                 newUser.notes.push({ text: 'Welcome to TranScribe!' });
@@ -76,15 +74,13 @@ module.exports = function(passport) {
         }
 
         if (!validEmail(email)) {
-            return done(null, false, req.flash('loginMessage', 'Invalid email'));
+            return done(null, false, req.flash('loginMessage', 'Invalid login'));
         }
 
         if (!validPassword(password)) {
-            return done(null, false, req.flash('loginMessage', 'Invalid password'));
+            return done(null, false, req.flash('loginMessage', 'Invalid login'));
         }
 
-        // find a user whose email is the same as the forms email
-        // we are checking to see if the user trying to login already exists
         User.findOne({ 'email' :  email }, function(err, user) {
             if (err)
                 return done(err);
@@ -92,9 +88,8 @@ module.exports = function(passport) {
             if (!user)
                 return done(null, false, req.flash('loginMessage', 'No user with that username was found.'));
 
-            // if the user is found but the password is wrong
             if (!user.validPassword(password))
-                return done(null, false, req.flash('loginMessage', 'Wrong password.')); // create the loginMessage and save it to session as flashdata
+                return done(null, false, req.flash('loginMessage', 'Invalid login'));
 
             // valid user, return the user
             return done(null, user);
