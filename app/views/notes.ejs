@@ -9,8 +9,10 @@
     <link href="css/ng-tags-input.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
     <link href="css/main.css" rel="stylesheet">
     <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/textAngular-sanitize.min.js"></script>
     <script src="js/textAngular.js"></script>
     <script src="js/ng-tags-input.js"></script>
@@ -28,12 +30,12 @@
 <body ng-controller="MainCtrl">
 <!--Start Header-->
 <header class="navbar">
-    <div class="container-fluid expanded-panel">
+    <div class="container-fluid expanded-panel profile-dropdown">
         <div class="row">
             <div id="logo" class="col-xs-2 col-sm-2">
                 <a href="/">TranScribe</a>
             </div>
-            <div id="top-panel" class="col-xs-10 col-sm-10">
+            <div id="top-panel" class="col-xs-8 col-sm-8">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4">
                         <div id="search">
@@ -42,6 +44,18 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-xs-2 col-sm-2">
+            <ul class="nav nav-pills">
+                <li class="dropdown pull-right">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">Bob <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/logout">Logout</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/settings">Settings</a></li>
+                    </ul>
+                </li>
+            </ul>
             </div>
         </div>
     </div>
@@ -90,4 +104,3 @@
 </div>
 </body>
 </html>
-
