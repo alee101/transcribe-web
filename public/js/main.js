@@ -35,7 +35,7 @@ app.directive('noteItem', function() {
 		templateUrl: 'noteItem.html',
 		link: function($scope, element, attrs) {
 			$scope.previewFilter = function(text) {
-				return text.substring(0, 80);
+				return String(text).replace(/<[^>]+>/gm, '').substring(0, 80);
 			};
 
 			$scope.deleteNote = function(note) {

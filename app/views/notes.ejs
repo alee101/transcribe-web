@@ -86,7 +86,7 @@
             <!-- <x-note-display /> -->
             <div class="note-editor-container">
                 <!-- Some text -->
-                <div id="note_box" ng-show="editContent && !editView" ng-bind="editContent" ng-click="enableEdit()"></div>
+                <div id="note_box" ng-show="editContent && !editView" ng-bind-html="editContent" ng-click="enableEdit()"></div>
                 <div class="note-panel" text-angular ng-show="editView" ng-model="editContent"></div>
                 <div class="bottom-bar">
                     <div class="tags col-xs-8 col-sm-10" ng-show="editContent">
