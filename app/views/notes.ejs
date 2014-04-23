@@ -67,10 +67,14 @@
         <div id="sidebar-left" class="col-xs-4 col-sm-3">
             <ul class="nav notes-list">
                 <div class="notes-list-head">
-                    <span ng-show="!searchText">All Notes</span>
-                    <span ng-show="searchText">Search results</span>
-                    <i class="fa fa-refresh" ng-click="refreshNotes()"></i>
-                    <i class="fa fa-plus" ng-click="addNote()"></i>
+                    <div class="col-xs-9 col-sm-10">
+                        <span ng-show="!searchText">All Notes</span>
+                        <span ng-show="searchText">Search results</span>
+                        <i class="fa fa-refresh" ng-click="refreshNotes()"></i>
+                    </div>
+                    <div class="col-xs-3 col-sm-2">
+                        <i class="fa fa-plus" ng-click="addNote()"></i>
+                    </div>
                 </div>
                 <li ng-repeat="note in notes | filter:multiFilter" ng-click=displayNote(note) ng-class="{'note-selected': mainNote===note}">
                     <a href='#'>
