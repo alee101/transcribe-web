@@ -86,7 +86,10 @@
             <!-- <x-note-display /> -->
             <div class="note-editor-container">
                 <!-- Some text -->
-                <div id="note_box" ng-show="editContent && !editView" ng-bind-html="editContent" ng-click="enableEdit()"></div>
+                <div id="note_box" ng-show="editContent && !editView" ng-mouseenter="showShare()" ng-mouseleave="hideShare()">
+                    <div id="display_box" ng-bind-html="editContent" ng-click="enableEdit()"></div>
+                    <div id="info_bar" ng-show="sharebar" ng-click="shareNote()">Share <i class="fa fa-share-square-o"></i></div>
+                </div>
                 <div class="note-panel" text-angular ng-show="editView" ng-model="editContent"></div>
                 <div class="bottom-bar">
                     <div class="tags col-xs-8 col-sm-10" ng-show="editContent">

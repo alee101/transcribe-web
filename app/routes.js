@@ -46,6 +46,24 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 
+	app.get('/note/:id', function (req, res) {
+		var ids = req.params.id.split('=');
+		console.log(ids);
+		User.findById(ids[0], function (err, user) {
+			if (err) {
+				console.log(err);
+				res.send(404);
+			} else {
+				var note = user.notes.id(ids[1]);
+				if (!note || !note.shared) {
+					res.send('Note not shared');
+				} else {
+					res.send(note.text);
+				}
+			}
+		});
+	});
+
 
 	// API Routes
 
@@ -156,6 +174,30 @@ module.exports = function(app, passport) {
 					else {
 						console.log('Saved note');
 						res.send(200);
+					}
+				});
+			}
+		});
+	});
+
+	// Make note shared
+	app.put('/api/note/share', isLoggedIn, function (req, res) {
+		console.log(req.body);
+		User.findById(req.user.id, function (err, user) {
+			if (err) {
+				console.log(err);
+				res.send(404);
+			} else {
+				var note = user.notes.id(req.body._id);
+				note.shared = true;
+				user.save(function (err) {
+					if (err) {
+						console.log(err);
+						res.send(404);
+					}
+					else {
+						console.log('Note public');
+						res.send(200, { path: user._id });
 					}
 				});
 			}

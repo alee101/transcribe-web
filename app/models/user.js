@@ -14,7 +14,6 @@ var NoteSchema = new Schema({
 		type: String,
 		required: true
 	},
-	annotations: [String],
 	created: {
 		type: Date,
 		default: Date.now
@@ -23,7 +22,10 @@ var NoteSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	// private: Boolean,
+	shared: {
+		type: Boolean,
+		default: false
+	},
 	tags: [TagSchema]
 });
 

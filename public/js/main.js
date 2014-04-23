@@ -10,6 +10,10 @@ app.factory('noteService', function ($http) {
 			return $http.put('/api/note', note);
 		},
 
+		shareNote: function(note) {
+			return $http.put('/api/note/share', note);
+		},
+
 		deleteNote: function(noteId) {
 			return $http.delete('/api/note/delete/'+noteId);
 		},
@@ -133,6 +137,29 @@ app.controller("MainCtrl", function ($scope, noteService) {
 		.error(function (data) {
 			console.log('Error saving new note');
 		});
+	};
+
+	$scope.shareNote = function() {
+		console.log('sharing');
+		if (!$scope.mainNote.shared) {
+			noteService.shareNote($scope.mainNote)
+			.success(function (data) {
+				console.log(data);
+				$scope.mainNote.shared = true;
+				console.log(data.path + '=' + $scope.mainNote._id);
+			})
+			.error(function (data) {
+				console.log('Error sharing note');
+			});
+		}
+	};
+
+	$scope.showShare = function() {
+		$scope.sharebar = true;
+	};
+
+	$scope.hideShare = function() {
+		$scope.sharebar = false;
 	};
 
 	$scope.addTag = function() {
