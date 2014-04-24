@@ -28,6 +28,19 @@ app.factory('noteService', function ($http) {
 	}
 });
 
+app.directive('resizable', function($window) {
+	return function($scope) {
+		$scope.initializeWindowSize = function() {
+			$scope.windowHeight = $window.innerHeight - 50;
+		};
+		$scope.initializeWindowSize();
+		return angular.element($window).bind('resize', function() {
+			$scope.initializeWindowSize();
+			$scope.$apply();
+		});
+	};
+});
+
 
 app.directive('noteItem', function() {
 	return {
