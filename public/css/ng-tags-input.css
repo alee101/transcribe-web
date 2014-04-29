@@ -35,7 +35,7 @@ tags-input .tags .tag-item {
   line-height: 25px;
   border: 1px solid #acacac;
   border-radius: 3px;
-  background: #a1dbff;
+  background: #dbdbdb;
   /*background: -webkit-linear-gradient(top, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%);*/
   /*background: linear-gradient(to bottom, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%);*/
 }

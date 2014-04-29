@@ -198,3 +198,8 @@ body {
 .note-panel {
   margin: 15px;
 }
+.btn-warning, .btn-warning:hover, .btn-warning:focus {
+  background-color: #ccc;
+  border-color: #acacac;
+  color: #525252;
+}

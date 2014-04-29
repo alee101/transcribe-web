@@ -73,29 +73,31 @@ app.directive('noteItem', function() {
 
 app.controller("MainCtrl", function ($scope, noteService) {
 	var user = window.newuser;
+	$scope.email = user.email;
 	$scope.notes = user.notes;
 	$scope.mainNote = {};
 	$scope.editContent = '';
 	$scope.editView = false;
+	$scope.shareText = 'Share';
 
 	$scope.displayNote = function(note) {
-		var confirmation;
+		var changeNote;
 		if ($scope.editView) { // if navigating to new note with unsaved note open
-			confirmation = confirm('Are you sure you want to cancel editing?');
+			changeNote = confirm('Are you sure you want to cancel editing?');
 		} else {
-			confirmation = true;
+			changeNote = true;
 		}
-		if (confirmation) {
+		if (changeNote) {
 			$scope.editView = false;
 			$scope.mainNote = note;
 			$scope.editContent = note.text;
+			$scope.shareText = note.shareUrl ? ('Share url: ' + note.shareUrl) : 'Share';
 		}
 	};
 
 	$scope.deleteNote = function(note) {
 		noteService.deleteNote(note._id)
 		.success(function (data) {
-			console.log(data);
 			if ($scope.mainNote === note) { // if note to delete in main view
 				$scope.mainNote = {};
 				$scope.editContent = '';
@@ -154,12 +156,12 @@ app.controller("MainCtrl", function ($scope, noteService) {
 
 	$scope.shareNote = function() {
 		console.log('sharing');
-		if (!$scope.mainNote.shared) {
+		if (!$scope.mainNote.shareUrl) {
 			noteService.shareNote($scope.mainNote)
 			.success(function (data) {
 				console.log(data);
-				$scope.mainNote.shared = true;
-				console.log(data.path + '=' + $scope.mainNote._id);
+				$scope.mainNote.shareUrl = data.path;
+				$scope.shareText = 'Share url: ' + data.path;
 			})
 			.error(function (data) {
 				console.log('Error sharing note');
@@ -191,7 +193,7 @@ app.controller("MainCtrl", function ($scope, noteService) {
 		});
 	};
 
-	$scope.multiFilter = function(note) {
+	$scope.multiWordFilter = function(note) {
 		if (!$scope.searchText) 
 			return true;
 

@@ -55,7 +55,7 @@ module.exports = function(app, passport) {
 				res.send(404);
 			} else {
 				var note = user.notes.id(ids[1]);
-				if (!note || !note.shared) {
+				if (!note || !note.shareUrl) {
 					res.send('Note not shared');
 				} else {
 					res.send(note.text);
@@ -106,10 +106,13 @@ module.exports = function(app, passport) {
 							if(err) console.log(err);
 							else {
 								console.log(text);
-								user.notes.unshift({ text: text });
-								user.save(function (err) {
-									if (err) console.log(err);
-									else console.log('Saved note');
+								User.findById(req.body.token, function (err, user) {
+									if (err || !user) res.send(401);
+									user.notes.unshift({ text: text });
+									user.save(function (err) {
+										if (err) console.log(err);
+										else console.log('Saved note');
+									});
 								});
 							}
 						});
@@ -189,7 +192,8 @@ module.exports = function(app, passport) {
 				res.send(404);
 			} else {
 				var note = user.notes.id(req.body._id);
-				note.shared = true;
+				// note.shared = true;
+				note.shareUrl = user._id + '=' + req.body._id;
 				user.save(function (err) {
 					if (err) {
 						console.log(err);
@@ -197,7 +201,7 @@ module.exports = function(app, passport) {
 					}
 					else {
 						console.log('Note public');
-						res.send(200, { path: user._id });
+						res.send(200, { path: note.shareUrl });
 					}
 				});
 			}

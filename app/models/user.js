@@ -22,9 +22,9 @@ var NoteSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	shared: {
-		type: Boolean,
-		default: false
+	shareUrl: {
+		type: String,
+		default: ''
 	},
 	tags: [TagSchema]
 });

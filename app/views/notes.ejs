@@ -19,7 +19,7 @@
     <script src="js/main.js"></script>
     <script>
         // ugly hack passing in user info
-        window.newuser = {"id": "<%= user.id %>", "notes": <%- JSON.stringify(user.notes) %> };
+        window.newuser = {"id": "<%= user.id %>", "email": "<%= user.email %>", "notes": <%- JSON.stringify(user.notes) %> };
     </script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,7 +48,7 @@
             <div class="col-xs-2 col-sm-2">
             <ul class="nav nav-pills">
                 <li class="dropdown pull-right">
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">Bob <b class="caret"></b></a>
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">{{email }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/logout">Logout</a></li>
                         <li class="divider"></li>
@@ -77,12 +77,12 @@
                         <i class="fa fa-plus" ng-click="addNote()"></i>
                     </div>
                 </div>
-                <li ng-repeat="note in notes | filter:multiFilter" ng-click=displayNote(note) ng-class="{'note-selected': mainNote===note}">
+                <li ng-repeat="note in notes | filter:multiWordFilter" ng-click=displayNote(note) ng-class="{'note-selected': mainNote===note}">
                     <a href="#">
                         <x-note-item note=note />
                     </a>
                 </li>
-                <div class="no-results" ng-show="(notes | filter:multiFilter).length == 0"><i>no results found</i></div>
+                <div class="no-results" ng-show="(notes | filter:multiWordFilter).length == 0"><i>no results found</i></div>
             </ul>
         </div>
         <!--End Sidebar-->
@@ -92,7 +92,7 @@
             <div class="note-editor-container">
                 <div id="note_box" ng-show="editContent && !editView" ng-mouseenter="showShare()" ng-mouseleave="hideShare()">
                     <div id="display_box" ng-bind-html="editContent" ng-click="enableEdit()"></div>
-                    <div id="info_bar" ng-show="sharebar" ng-click="shareNote()">Share <i class="fa fa-share-square-o"></i></div>
+                    <div id="info_bar" ng-show="sharebar" ng-click="shareNote()">{{shareText }} <i class="fa fa-share-square-o" ng-show=!mainNote.shareUrl></i></div>
                 </div>
                 <div class="note-panel" text-angular ng-show="editView" ng-model="editContent"></div>
                 <div class="bottom-bar">
