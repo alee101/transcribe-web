@@ -52,7 +52,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="/logout">Logout</a></li>
                         <li class="divider"></li>
-                        <li><a href="/settings">Settings</a></li>
+                        <li><a href="/help">Help</a></li>
                     </ul>
                 </li>
             </ul>
@@ -92,7 +92,7 @@
             <div class="note-editor-container">
                 <div id="note_box" ng-show="editContent && !editView" ng-mouseenter="showShare()" ng-mouseleave="hideShare()">
                     <div id="display_box" ng-bind-html="editContent" ng-click="enableEdit()"></div>
-                    <div id="info_bar" ng-show="sharebar" ng-click="shareNote()">{{shareText }} <i class="fa fa-share-square-o" ng-show=!mainNote.shareUrl></i></div>
+                    <div id="info_bar" ng-show="sharebar" ng-click="shareNote()" ng-class="{'shared': mainNote.shareUrl}">{{shareText }} <i class="fa fa-share-square-o" ng-show=!mainNote.shareUrl></i></div>
                 </div>
                 <div class="note-panel" text-angular ng-show="editView" ng-model="editContent"></div>
                 <div class="bottom-bar">

@@ -180,6 +180,9 @@ body {
   background: #ddd;
   width: 100%;
 }
+.shared {
+  cursor: text;
+}
 #main {
   margin-top: 50px;
   overflow-y: hidden;
