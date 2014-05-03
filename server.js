@@ -25,9 +25,17 @@ app.configure(function() {
 	app.use(passport.initialize());
 	app.use(passport.session());
 	app.use(flash());
+
+	// Error handler
+	app.use(function (err, req, res, next) {
+		console.log(err.status || 500);
+		console.log(err);
+		res.send(err.status || 500);
+	});
 });
 
 require('./app/routes.js')(app, passport);
+require('./app/api.js')(app);
 
 app.listen(port);
 console.log('Listening on port ' + port);
