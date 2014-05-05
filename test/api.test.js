@@ -9,7 +9,7 @@ describe('Authorization test', function () {
 	before(function (done) {
 		request(app)
 		.post('/signup')
-		.send({ email: 'apitest@test.com', password: 'password' })
+		.send({ uname: 'apitest', password: 'password' })
 		.end(function (err, res) {
 			should.not.exist(err);
 			done();
@@ -19,11 +19,11 @@ describe('Authorization test', function () {
 	it('should return correct token when using valid login', function (done) {
 		request(app)
 		.post('/api/auth')
-		.send({ email: 'apitest@test.com', password: 'password' })
+		.send({ uname: 'apitest', password: 'password' })
 		.end(function (err, res) {
 			should.not.exist(err);
 			res.status.should.equal(200);
-			User.findOne({ email: 'apitest@test.com' }, function (err, user) {
+			User.findOne({ uname: 'apitest' }, function (err, user) {
 				should.not.exist(err);
 				user._id.toHexString().should.equal(res.text);
 				done();
@@ -31,10 +31,10 @@ describe('Authorization test', function () {
 		});
 	});
 
-	it('should return 401 unauthorized when using invalid login email', function (done) {
+	it('should return 401 unauthorized when using invalid login uname', function (done) {
 		request(app)
 		.post('/api/auth')
-		.send({ email: 'apitester@test.com', password: 'password' })
+		.send({ uname: 'apitester', password: 'password' })
 		.end(function (err, res) {
 			res.status.should.equal(401);
 			done();
@@ -44,7 +44,7 @@ describe('Authorization test', function () {
 	it('should return 401 unauthorized when using invalid login password', function (done) {
 		request(app)
 		.post('/api/auth')
-		.send({ email: 'apitest@test.com', password: 'pass' })
+		.send({ uname: 'apitest', password: 'pass' })
 		.end(function (err, res) {
 			res.status.should.equal(401);
 			done();
@@ -52,7 +52,7 @@ describe('Authorization test', function () {
 	});
 
 	after(function (done) {
-		User.findOneAndRemove({ email: 'apitest@test.com' }, function (err, user) {
+		User.findOneAndRemove({ uname: 'apitest' }, function (err, user) {
 			should.not.exist(err);
 			console.log('Removed user');
 			console.log(user);
@@ -67,7 +67,7 @@ describe('Authorization test', function () {
 // 	before(function (done) {
 // 		request(app)
 // 		.post('/signup')
-// 		.send({ email: 'apitest@test.com', password: 'password' })
+// 		.send({ uname: 'apitest', password: 'password' })
 // 		.end(function (err, res) {
 // 			should.not.exist(err);
 // 			done();
@@ -75,7 +75,7 @@ describe('Authorization test', function () {
 // 	});
 
 // 	after(function (done) {
-// 		User.findOneAndRemove({ email: 'apitest@test.com' }, function (err, user) {
+// 		User.findOneAndRemove({ uname: 'apitest' }, function (err, user) {
 // 			should.not.exist(err);
 // 			console.log('Removed user');
 // 			console.log(user);

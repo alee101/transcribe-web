@@ -20,12 +20,12 @@
 	<% } %>
 
 	<form name="signupForm" action="/signup" method="post">
-		<div class="form-group" ng-class="{ 'has-error': signupForm.email.$invalid && !signupForm.email.$pristine }">
-			<label>Email</label>
-			<input type="email" class="form-control" name="email" ng-model="user.email" ng-maxlength="64">
-			<p ng-show="signupForm.email.$invalid && !signupForm.email.$pristine" class="help-block">Please enter a valid email.</p>
-			<p ng-show="signupForm.email.$error.maxlength" class="help-block">Please use an email less than 64 characters.</p>
-			<p ng-show="signupForm.email.$error.required" class="help-block">Email is required.</p>
+		<div class="form-group" ng-class="{ 'has-error': signupForm.uname.$invalid && !signupForm.uname.$pristine }">
+			<label>Username</label>
+			<input type="text" class="form-control" name="uname" ng-model="user.uname" ng-minlength="3" ng-maxlength="64">
+			<p ng-show="signupForm.uname.$error.minlength" class="help-block">Username must be at least 3 characters.</p>
+			<p ng-show="signupForm.uname.$error.maxlength" class="help-block">Please use an username less than 64 characters.</p>
+			<p ng-show="signupForm.uname.$error.required" class="help-block">Username is required.</p>
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
 			<label>Password</label>

@@ -10,7 +10,7 @@ describe('Sign up test', function () {
 	
 	before(function (done) {
 		user = new User({
-			email: 'test@test.com',
+			uname: 'test',
 			password: 'password'
 		});
 		user.save(done);
@@ -26,7 +26,7 @@ describe('Sign up test', function () {
 	it('should not allow for duplicate accounts', function (done) {
 		request(app)
 		.post('/signup')
-		.send({ email: 'test@test.com', password: 'password' })
+		.send({ uname: 'test', password: 'password' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/signup');
 			// app.didFlash('signupMessage').should.be(true);
@@ -34,10 +34,10 @@ describe('Sign up test', function () {
 		});
 	});
 
-	it('should require email', function (done) {
+	it('should require username', function (done) {
 		request(app)
 		.post('/signup')
-		.send({ email: '', password: 'password' })
+		.send({ uname: '', password: 'password' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/signup');
 			done();
@@ -47,17 +47,27 @@ describe('Sign up test', function () {
 	it('should require password', function (done) {
 		request(app)
 		.post('/signup')
-		.send({ email: 'test2@test.com', password: '' })
+		.send({ uname: 'test2', password: '' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/signup');
 			done();
 		});
 	});
 
-	it('should not allow for invalid length email (too long)', function (done) {
+	it('should not allow for invalid length username (too short)', function (done) {
 		request(app)
 		.post('/signup')
-		.send({ email: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@test.com', password: 'password' })
+		.send({ uname: 'aa', password: 'password' })
+		.end(function (err, res) {
+			res.headers['location'].should.include('/signup');
+			done();
+		});
+	});
+
+	it('should not allow for invalid length username (too long)', function (done) {
+		request(app)
+		.post('/signup')
+		.send({ uname: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', password: 'password' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/signup');
 			done();
@@ -67,7 +77,7 @@ describe('Sign up test', function () {
 	it('should not allow for invalid length passwords (too short)', function (done) {
 		request(app)
 		.post('/signup')
-		.send({ email: 'test2@test.com', password: 'test' })
+		.send({ uname: 'test2', password: 'test' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/signup');
 			done();
@@ -77,7 +87,7 @@ describe('Sign up test', function () {
 	it('should not allow for invalid length passwords (too long)', function (done) {
 		request(app)
 		.post('/signup')
-		.send({ email: 'test2@test.com', password: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' })
+		.send({ uname: 'test2', password: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/signup');
 			done();
@@ -87,7 +97,7 @@ describe('Sign up test', function () {
 	it('should redirect to /notes when signed in', function (done) {
 		request(app)
 		.post('/signup')
-		.send({ email: 'test2@test.com', password: 'password' })
+		.send({ uname: 'test2', password: 'password' })
 		.end(function (err, res) {
 			should.not.exist(err);
 			res.headers['location'].should.include('/notes');
@@ -97,7 +107,7 @@ describe('Sign up test', function () {
 
 	after(function (done) {
 		user.remove();
-		User.findOneAndRemove({ email: 'test2@test.com' }, function (err, user) {
+		User.findOneAndRemove({ uname: 'test2' }, function (err, user) {
 			should.not.exist(err);
 			console.log('Removed user');
 			console.log(user);
@@ -112,7 +122,7 @@ describe('Login test', function () {
 	before(function (done) {
 		request(app)
 		.post('/signup')
-		.send({ email: 'logintest@test.com', password: 'password' })
+		.send({ uname: 'logintest', password: 'password' })
 		.end(function (err, res) {
 			should.not.exist(err);
 			done();
@@ -133,10 +143,10 @@ describe('Login test', function () {
 		.end(done);
 	});
 
-	it('should require email', function (done) {
+	it('should require username', function (done) {
 		request(app)
 		.post('/login')
-		.send({ email: '', password: 'password' })
+		.send({ uname: '', password: 'password' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/login');
 			done();
@@ -146,17 +156,27 @@ describe('Login test', function () {
 	it('should require password', function (done) {
 		request(app)
 		.post('/login')
-		.send({ email: 'logintest@test.com', password: '' })
+		.send({ uname: 'logintest', password: '' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/login');
 			done();
 		});
 	});
 
-	it('should not allow for invalid length email (too long)', function (done) {
+	it('should not allow for invalid length username (too short)', function (done) {
 		request(app)
 		.post('/login')
-		.send({ email: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@test.com', password: 'password' })
+		.send({ uname: 'aa', password: 'password' })
+		.end(function (err, res) {
+			res.headers['location'].should.include('/login');
+			done();
+		});
+	});
+
+	it('should not allow for invalid length username (too long)', function (done) {
+		request(app)
+		.post('/login')
+		.send({ uname: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', password: 'password' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/login');
 			done();
@@ -166,7 +186,7 @@ describe('Login test', function () {
 	it('should not allow for invalid length passwords (too short)', function (done) {
 		request(app)
 		.post('/login')
-		.send({ email: 'logintest@test.com', password: 'test' })
+		.send({ uname: 'logintest', password: 'test' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/login');
 			done();
@@ -176,7 +196,7 @@ describe('Login test', function () {
 	it('should not allow for invalid length passwords (too long)', function (done) {
 		request(app)
 		.post('/signup')
-		.send({ email: 'logintest@test.com', password: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' })
+		.send({ uname: 'logintest', password: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' })
 		.end(function (err, res) {
 			res.headers['location'].should.include('/signup');
 			done();
@@ -186,7 +206,7 @@ describe('Login test', function () {
 	it('should redirect to /notes when logged in', function (done) {
 		request(app)
 		.post('/login')
-		.send({ email: 'logintest@test.com', password: 'password' })
+		.send({ uname: 'logintest', password: 'password' })
 		.end(function (err, res) {
 			should.not.exist(err);
 			res.headers['location'].should.include('/notes');
@@ -195,7 +215,7 @@ describe('Login test', function () {
 	});
 
 	after(function (done) {
-		User.findOneAndRemove({ email: 'logintest@test.com' }, function (err, user) {
+		User.findOneAndRemove({ uname: 'logintest' }, function (err, user) {
 			should.not.exist(err);
 			console.log('Removed user');
 			console.log(user);

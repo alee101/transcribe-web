@@ -12,7 +12,7 @@ module.exports = function(app) {
 	app.post('/api/auth', function (req, res, next) {
 		console.log('Received phone authentication request');
 		console.log(req.body);
-		User.findOne({ 'email' : req.body.email }, function (err, user) {
+		User.findOne({ 'uname' : req.body.uname }, function (err, user) {
 			if (err) {
 				err.status = 401;
 				return next(err);
@@ -38,7 +38,7 @@ module.exports = function(app) {
 				return next(err);
 			} 
 
-			if (!user || user.email !== req.body.email) {
+			if (!user || user.uname !== req.body.uname) {
 				var err = new Error('User with token ' + req.body.token + ' could not be validated');
 				err.status = 401;
 				return next(err);

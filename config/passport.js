@@ -15,39 +15,38 @@ module.exports = function(passport) {
     });
 
     passport.use('local-signup', new LocalStrategy({
-        // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',
+        usernameField : 'uname',
         passwordField : 'password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
-    function(req, email, password, done) {
-        if (!email || !password) {
-            return done(null, false, req.flash('signupMessage', 'Email and password required'));
+    function(req, uname, password, done) {
+        if (!uname || !password) {
+            return done(null, false, req.flash('signupMessage', 'Username and password required'));
         }
 
-        if (!validEmail(email)) {
-            return done(null, false, req.flash('signupMessage', 'Email cannot exceed 64 characters'));
+        if (!validUsername(uname)) {
+            return done(null, false, req.flash('signupMessage', 'Username cannot exceed 64 characters'));
         }
 
         if (!validPassword(password)) {
             return done(null, false, req.flash('signupMessage', 'Password must be between 5 and 64 characters'));
         }
 
-        User.findOne({ 'email' :  email }, function(err, user) {
+        User.findOne({ 'uname' :  uname }, function(err, user) {
             // if there are any errors, return the error
             if (err)
                 return done(err);
 
-            // check to see if theres already a user with that email
+            // check to see if theres already a user with that username
             if (user) {
-                return done(null, false, req.flash('signupMessage', 'That email is already being used.'));
+                return done(null, false, req.flash('signupMessage', 'That username is already being used.'));
             } else {
-				// if there is no user with that email
+				// if there is no user with that username
                 // create the user
                 var newUser = new User();
 
                 // set the user's local credentials
-                newUser.email = email;
+                newUser.uname = uname;
                 newUser.password = newUser.generateHash(password);
 
                 // create default note
@@ -64,16 +63,16 @@ module.exports = function(passport) {
     }));
 
     passport.use('local-login', new LocalStrategy({
-        usernameField : 'email',
+        usernameField : 'uname',
         passwordField : 'password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
-    function(req, email, password, done) { // callback with email and password from our form
-        if (!email || !password) {
-            return done(null, false, req.flash('loginMessage', 'Email and password required'));
+    function(req, uname, password, done) { // callback with uname and password from our form
+        if (!uname || !password) {
+            return done(null, false, req.flash('loginMessage', 'Username and password required'));
         }
 
-        if (!validEmail(email)) {
+        if (!validUsername(uname)) {
             return done(null, false, req.flash('loginMessage', 'Invalid login'));
         }
 
@@ -81,7 +80,7 @@ module.exports = function(passport) {
             return done(null, false, req.flash('loginMessage', 'Invalid login'));
         }
 
-        User.findOne({ 'email' :  email }, function(err, user) {
+        User.findOne({ 'uname' :  uname }, function(err, user) {
             if (err)
                 return done(err);
 
@@ -97,8 +96,8 @@ module.exports = function(passport) {
     }));
 };
 
-function validEmail(email) {
-    return email.length <= 64;
+function validUsername(uname) {
+    return ((uname.length <= 64) && (uname.length >= 3));
 }
 
 function validPassword(password) {

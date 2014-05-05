@@ -30,7 +30,7 @@ var NoteSchema = new Schema({
 });
 
 var UserSchema = new Schema({
-    email: {
+    uname: {
 		type: String,
 		required: true
 	},
@@ -41,9 +41,9 @@ var UserSchema = new Schema({
     notes: [NoteSchema]
 });
 
-UserSchema.path('email').validate(function (email) {
-	return email.length <= 64;
-}, 'Email cannot exceed 64 characters');
+UserSchema.path('uname').validate(function (uname) {
+	return ((uname.length <= 64) && (uname.length >= 3));
+}, 'Username must be between 3 and 64 characters');
 
 UserSchema.path('password').validate(function (password) {
 	return ((password.length <= 64) && (password.length >= 5));

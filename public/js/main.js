@@ -73,7 +73,7 @@ app.directive('noteItem', function() {
 
 app.controller("MainCtrl", function ($scope, noteService) {
 	var user = window.newuser;
-	$scope.email = user.email;
+	$scope.uname = user.uname;
 	$scope.notes = user.notes;
 	$scope.mainNote = {};
 	$scope.editContent = '';

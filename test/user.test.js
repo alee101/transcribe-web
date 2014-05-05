@@ -11,7 +11,7 @@ describe('Users', function () {
 
 	before(function (done) {
 		user = new User({
-			email: 'test@test.com',
+			uname: 'test',
 			password: 'password'
 		});
 
@@ -22,7 +22,7 @@ describe('Users', function () {
 
 	describe('New User', function () {
 		it('should not have test user', function (done) {
-			User.find({ email: 'test@test.com' }, function (err, users) {
+			User.find({ uname: 'test' }, function (err, users) {
 				users.should.have.length(0);
 				done();
 			});
@@ -40,26 +40,35 @@ describe('Users', function () {
 			});
 		});
 
-		it('should fail to save user without email', function (done) {
-			user.email = '';
+		it('should fail to save user without username', function (done) {
+			user.uname = '';
 			return user.save(function (err) {
 				should.exist(err);
-				err.errors.email.message.should.include('required');
+				err.errors.uname.message.should.include('required');
 				done();
 			});
 		});
 
-		it('should fail to save user with invalid length email', function (done) {
-			user.email = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaaaa.com';
+		it('should fail to save user with invalid length useruname (too short)', function (done) {
+			user.uname = 'ab';
 			return user.save(function (err) {
 				should.exist(err);
-				err.errors.email.message.should.equal('Email cannot exceed 64 characters');
+				err.errors.uname.message.should.equal('Username must be between 3 and 64 characters');
+				done();
+			});
+		});
+
+		it('should fail to save user with invalid length useruname (too long)', function (done) {
+			user.uname = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+			return user.save(function (err) {
+				should.exist(err);
+				err.errors.uname.message.should.equal('Username must be between 3 and 64 characters');
 				done();
 			});
 		});
 
 		it('should fail to save user without password', function (done) {
-			user.email = 'test@test.com';
+			user.uname = 'test';
 			user.password = '';
 			return user.save(function (err) {
 				should.exist(err);

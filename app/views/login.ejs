@@ -20,10 +20,10 @@
 	<% } %>
 
 	<form name="loginForm" action="/login" method="post">
-		<div class="form-group" ng-class="{ 'has-error': loginForm.email.$invalid && !loginForm.email.$pristine }">
-			<label>Email</label>
-			<input type="email" class="form-control" name="email" ng-model="user.email" ng-maxlength="64" required>
-			<p ng-show="(loginForm.email.$invalid && !loginForm.email.$pristine) || loginForm.email.$error.maxlength" class="help-block">Invalid email.</p>
+		<div class="form-group" ng-class="{ 'has-error': loginForm.uname.$invalid && !loginForm.uname.$pristine }">
+			<label>Username</label>
+			<input type="text" class="form-control" name="uname" ng-model="user.uname" ng-maxlength="64" required>
+			<p ng-show="(loginForm.uname.$invalid && !loginForm.uname.$pristine) || loginForm.uname.$error.maxlength" class="help-block">Invalid username.</p>
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': loginForm.password.$invalid && !loginForm.password.$pristine }">
 			<label>Password</label>
