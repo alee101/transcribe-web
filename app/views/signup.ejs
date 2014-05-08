@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>TranScribe</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/authstyle.css" rel="stylesheet">
 	<script src="js/angular.min.js"></script>
@@ -10,7 +11,11 @@
 <body ng-app="validationApp" ng-controller="mainController">
 <% include header %>
 <div class="container">
-
+<style>
+	body {
+		font-family: 'Open Sans';
+	}
+</style>
 <div class="main-panel col-sm-4 col-sm-offset-4">
 
 	<h1>Sign up</h1>
@@ -22,17 +27,17 @@
 	<form name="signupForm" action="/signup" method="post">
 		<div class="form-group" ng-class="{ 'has-error': signupForm.uname.$invalid && !signupForm.uname.$pristine }">
 			<label>Username</label>
-			<input type="text" class="form-control" name="uname" ng-model="user.uname" ng-minlength="3" ng-maxlength="64">
+			<input type="text" class="form-control" name="uname" ng-model="user.uname" ng-minlength="3" ng-maxlength="64" required>
 			<p ng-show="signupForm.uname.$error.minlength" class="help-block">Username must be at least 3 characters.</p>
 			<p ng-show="signupForm.uname.$error.maxlength" class="help-block">Please use an username less than 64 characters.</p>
-			<p ng-show="signupForm.uname.$error.required" class="help-block">Username is required.</p>
+			<!-- <p ng-show="signupForm.uname.$error.required" class="help-block">Username is required.</p> -->
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
 			<label>Password</label>
-			<input type="password" class="form-control" name="password" ng-model="user.password" ng-minlength="5" ng-maxlength="64">
+			<input type="password" class="form-control" name="password" ng-model="user.password" ng-minlength="5" ng-maxlength="64" required>
 			<p ng-show="signupForm.password.$error.minlength" class="help-block">Password must be at least 5 characters.</p>
             <p ng-show="signupForm.password.$error.maxlength" class="help-block">Password can't be longer than 64 characters.</p>
-            <p ng-show="signupForm.password.$error.required" class="help-block">Password is required.</p>
+            <!-- <p ng-show="signupForm.password.$error.required" class="help-block">Password is required.</p> -->
 		</div>
 
 		<button type="submit" class="btn btn-primary btn-lg" ng-disabled="signupForm.$invalid">Sign up</button>

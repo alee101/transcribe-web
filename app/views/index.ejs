@@ -1,25 +1,76 @@
 <!doctype html>
 <html>
 <head>
-	<title>Node Authentication</title>
+	<title>TranScribe</title>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-	<style>
-		body 		{ padding-top:80px; }
-	</style>
+	<link href="css/home.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
+	<% include header %>
 
-	<div class="jumbotron text-center">
-		<h1><span class="fa fa-lock"></span> Node Authentication</h1>
+	<style>
+		.navbar {
+			background: #2f2f2f;
+		}
+	</style>
 
-		<p>Login or Register with:</p>
-
-		<a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
-		<a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+	<div id="headerwrap">
+	    <div class="container">
+	    	<div class="row centered">
+	    		<div class="col-lg-12">
+					<h1><b>TranScribe</b></h1>
+					<h2>A web system for organizing print sources digitally</h2>
+					<br>
+	    		</div>
+	    		
+	    		<div class="col-lg-2">
+	    		</div>
+	    		<div class="col-lg-8">
+	    			<iframe title="Youtube video player" width="680" height="390" src="http://www.youtube.com/embed/SHaoHHEoIRA" frameborder="0"></iframe>
+	    		</div>
+	    		<div class="col-lg-2">
+	    		</div>
+	    	</div>
+	    </div>
 	</div>
 
-</div>
-</body>
+	<div id="capture">
+		<div class="container">
+			<div class="row">
+				<h1 class="centered">Capture</h1>
+				<br>
+				<h2 class="centered">Short thing here</h2>
+				<div class="col-lg-12 centered">
+					<img class=" img-responsive" src="img/capture.png" alt="phone capture">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="view">
+		<div class="container">
+			<div class="row">
+				<h1 class="centered">Edit</h1>
+				<br>
+				<h2 class="centered">View, edit, search and share your notes online</h2>
+				<br>
+				<div class="col-lg-1"></div>
+				<div class="col-lg-11 centered">
+					<img class="img-responsive" src="img/siteshot.png" alt="site screenshot">
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<div id="footerwrap">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 centered">
+					 <a href="/signup" class="btn btn-default btn-large">Sign up</a>
+				</div>
+			</div>
+		</div>
+	</div>
+  </body>
 </html>
