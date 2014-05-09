@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var tesseract = require('node-tesseract');
 var User = require('./models/user');
+var ShortUrl = require('./models/shorturl');
 var isLoggedIn = require('./middleware').isLoggedIn;
 
 var langOptions = {
@@ -147,12 +148,16 @@ module.exports = function(app) {
 			if (err) return next(err);
 
 			var note = user.notes.id(req.body._id);
-			note.shareUrl = user._id + '=' + req.body._id;
+			note.shareUrl = user._id + '-' + req.body._id;
 			user.save(function (err) {
 				if (err) return next(err);
 
 				console.log('Note public');
-				res.send(200, { path: note.shareUrl });
+				ShortUrl.create({ 'originalUrl': note.shareUrl }, function (err, shorturl) {
+					if (err) return next(err);
+
+					res.send(200, { path: shorturl.shortUrl });
+				});
 			});
 		});
 	});

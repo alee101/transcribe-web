@@ -1,4 +1,5 @@
 var User = require('./models/user');
+var ShortUrl = require('./models/shorturl');
 var isLoggedIn = require('./middleware').isLoggedIn;
 
 module.exports = function(app, passport) {
@@ -45,20 +46,28 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/note/:id', function (req, res, next) {
-		var ids = req.params.id.split('=');
-		console.log(ids);
-		User.findById(ids[0], function (err, user) {
+		ShortUrl.findOne({ 'shortUrl': req.params.id }, function (err, shorturl) {
 			if (err) {
 				err.status = 404;
 				return next(err);
 			}
 
-			var note = user.notes.id(ids[1]);
-			if (!note || !note.shareUrl) {
-				res.send('Note not shared');
-			} else {
-				res.send(note.text);
-			}
+			var longUrl = shorturl.originalUrl;
+			var ids = longUrl.split('-');
+			console.log(ids);
+			User.findById(ids[0], function (err, user) {
+				if (err) {
+					err.status = 404;
+					return next(err);
+				}
+
+				var note = user.notes.id(ids[1]);
+				if (!note || !note.shareUrl) {
+					res.send('Note not shared');
+				} else {
+					res.send(note.text);
+				}
+			});
 		});
 	});
 };
