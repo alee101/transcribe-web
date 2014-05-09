@@ -6,6 +6,27 @@ var tesseract = require('node-tesseract');
 var User = require('./models/user');
 var isLoggedIn = require('./middleware').isLoggedIn;
 
+var langOptions = {
+  eng: {
+    'l': 'eng'
+  },
+  spa: {
+  	'l': 'spa'
+  }, 
+  fra: {
+    'l': 'fra'
+  },
+  deu: {
+  	'l': 'deu'
+  },
+  chi_sim: {
+  	'l': 'chi_sim'
+  },
+  rus: {
+  	'l': 'rus'
+  }
+}
+
 module.exports = function(app) {
 
 	// Authenticate phone users
@@ -44,12 +65,16 @@ module.exports = function(app) {
 				return next(err);
 			}
 
+			var tessoptions= langOptions[req.body.lang];
+			if (!tessoptions) 
+				tessoptions = langOptions.eng;
+
 			var img = __dirname + '/test.jpg';
 			// var img = __dirname + '/' + new Date().toISOString() + '.jpg';
 			fs.writeFile(img, new Buffer(req.body.image, 'base64'), function (err) {
 				if (err) return next(err);
 
-				tesseract.process(img, function(err, text) {
+				tesseract.process(img, tessoptions, function(err, text) {
 					if (err) return next(err);
 
 					console.log(text);
