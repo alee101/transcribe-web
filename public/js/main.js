@@ -79,6 +79,7 @@ app.controller("MainCtrl", function ($scope, noteService) {
 	$scope.editContent = '';
 	$scope.editView = false;
 	$scope.shareText = 'Share';
+	$scope.shareBar = false;
 
 	$scope.displayNote = function(note) {
 		var changeNote;
@@ -170,7 +171,10 @@ app.controller("MainCtrl", function ($scope, noteService) {
 	};
 
 	$scope.showShare = function() {
-		$scope.sharebar = true;
+		if (document.getElementById('note_box').scrollTop === 0)
+			$scope.sharebar = true;
+		else
+			$scope.sharebar = false;
 	};
 
 	$scope.hideShare = function() {
@@ -215,4 +219,14 @@ app.controller("MainCtrl", function ($scope, noteService) {
 		}
 		return true;
 	}
+
+	document.getElementById('note_box').addEventListener('scroll', function() {
+		if (this.scrollTop !== 0 && $scope.sharebar) {
+			$scope.sharebar = false;
+			$scope.$apply();			
+		} else if (this.scrollTop === 0) {
+			$scope.sharebar = true;
+			$scope.$apply()
+		}
+	});
 });
