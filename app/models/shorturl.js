@@ -8,9 +8,13 @@ var ShortUrlSchema = new Schema({
 		unique: true,
 		default: function() { return shortId.generate(); }
 	},
-	originalUrl: {
+	userId: {
 		type: String,
 		required: true
+	},
+	noteId: {
+		type: String,
+		 required: true
 	}
 });
 

@@ -52,16 +52,13 @@ module.exports = function(app, passport) {
 				return next(err);
 			}
 
-			var longUrl = shorturl.originalUrl;
-			var ids = longUrl.split('-');
-			console.log(ids);
-			User.findById(ids[0], function (err, user) {
+			User.findById(shorturl.userId, function (err, user) {
 				if (err) {
 					err.status = 404;
 					return next(err);
 				}
 
-				var note = user.notes.id(ids[1]);
+				var note = user.notes.id(shorturl.noteId);
 				if (!note || !note.shareUrl) {
 					res.send('Note not shared');
 				} else {

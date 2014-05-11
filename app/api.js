@@ -148,15 +148,16 @@ module.exports = function(app) {
 			if (err) return next(err);
 
 			var note = user.notes.id(req.body._id);
-			note.shareUrl = user._id + '-' + req.body._id;
-			user.save(function (err) {
+
+			ShortUrl.create({ 'userId': user._id, 'noteId': req.body._id }, function (err, shorturl) {
 				if (err) return next(err);
 
-				console.log('Note public');
-				ShortUrl.create({ 'originalUrl': note.shareUrl }, function (err, shorturl) {
+				note.shareUrl = shorturl.shortUrl;
+				user.save(function (err) {
 					if (err) return next(err);
 
-					res.send(200, { path: shorturl.shortUrl });
+					console.log('Note public');
+					res.send(200, { path: shorturl.shortUrl });					
 				});
 			});
 		});
