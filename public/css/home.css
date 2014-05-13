@@ -95,6 +95,11 @@ p {
 	color: white;
 }
 
+#footerwrap h5 {
+    padding-top: 15px;
+    color: white;
+}
+
 #footerwrap p {
 	color: white;
 	font-size: 18px;
