@@ -1,10 +1,11 @@
 <link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 <style>
     #logo {
       position:relative;
-      /*background: #525252;*/
     }
     #logo a {
       color: #fff;
@@ -20,6 +21,16 @@
     #logo a:hover {
       background-position: right 25px;
       text-decoration: none;
+    }
+    .profile-dropdown {
+      background: #2f2f2f;
+    }
+    .nav-pills>li>a, .nav-pills>li>a:hover {
+      color: white;
+      background: #2f2f2f;
+    }
+    .nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+      background: #2f2f2f;
     }
     .navbar {
       margin: 0;
@@ -51,17 +62,28 @@
             <div id="logo" class="col-xs-12 col-sm-2">
                 <a href="/">TranScribe</a>
             </div>
-            <!-- <div id="top-panel" class="col-xs-12 col-sm-10"> -->
                 <div class="navbar-collapse collapse">
-                  <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="/signup">Sign up</a></li>
-                    <li><a href="/login">Login</a></li>
-                  </ul>
+                  <% if (user) { %>
+                    <ul class="nav nav-pills">
+                        <li class="dropdown pull-right">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle"><%= user.uname %> <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/logout">Logout</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/help">Help</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                  <% } %>
+                  <% if (!user) { %>
+                    <ul class="nav navbar-nav navbar-right">
+                      <li class="active"><a href="/signup">Sign up</a></li>
+                      <li><a href="/login">Login</a></li>
+                    </ul>
+                  <% } %>
                 </div><!--/.nav-collapse -->
             <!-- </div> -->
         </div>
     </div>
 </header>
 <!--End Header-->
-
-

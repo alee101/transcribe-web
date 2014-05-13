@@ -4,12 +4,15 @@ var isLoggedIn = require('./middleware').isLoggedIn;
 
 module.exports = function(app, passport) {
 
-	app.get('/', function (req, res) {
-		res.render('index.ejs');
+	app.get('/', isLoggedIn, function (req, res) {
+		res.render('index.ejs', { user: req.user });
 	});
 
-	app.get('/login', function (req, res) {
-		res.render('login.ejs', { message: req.flash('loginMessage') });
+	app.get('/login', isLoggedIn, function (req, res) {
+		res.render('login.ejs', { 
+			message: req.flash('loginMessage'), 
+			user: req.user 
+		});
 	});
 
 	app.post('/login', passport.authenticate('local-login', {
@@ -18,8 +21,11 @@ module.exports = function(app, passport) {
 		failureFlash : true
 	}));
 
-	app.get('/signup', function (req, res) {
-		res.render('signup.ejs', { message: req.flash('signupMessage') });
+	app.get('/signup', isLoggedIn, function (req, res) {
+		res.render('signup.ejs', { 
+			message: req.flash('signupMessage'), 
+			user: req.user 
+		});
 	});
 
 	app.post('/signup', passport.authenticate('local-signup', {
@@ -30,12 +36,6 @@ module.exports = function(app, passport) {
 
 	app.get('/notes', isLoggedIn, function (req, res) {
 		res.render('notes.ejs', {
-			user : req.user
-		});
-	});
-
-	app.get('/profile', isLoggedIn, function (req, res) {
-		res.render('profile.ejs', {
 			user : req.user
 		});
 	});
@@ -66,5 +66,10 @@ module.exports = function(app, passport) {
 				}
 			});
 		});
+	});
+
+	// Handle non-existent routes
+	app.get('*', function(req, res){
+		res.send("Oops, looks like this page doesn't exist" , 404);
 	});
 };
