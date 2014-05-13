@@ -91,13 +91,13 @@
         <div id="content" class="col-xs-12 col-sm-9">
             <div class="note-editor-container">
                 <div id="note_box" ng-show="editContent && !editView" ng-mouseenter="showShare()" ng-mouseleave="hideShare()">
-                    <div id="display_box" ng-bind-html="editContent" ng-click="enableEdit()"></div>
+                    <div id="display_box" ng-bind-html="filterErrors(editContent)" ng-click="enableEdit()"></div>
                     <div id="info_bar" ng-show="sharebar" ng-click="shareNote()" ng-class="{'shared': mainNote.shareUrl}">{{shareText }} <i class="fa fa-share-square-o" ng-show=!mainNote.shareUrl></i></div>
                 </div>
                 <div class="note-panel" text-angular ng-show="editView" ng-model="editContent"></div>
                 <div class="bottom-bar">
                     <div class="tags col-xs-8 col-sm-9" ng-show="editContent">
-                        <tags-input ng-model="mainNote.tags" max-length=15 on-tag-added="addTag()" on-tag-removed="removeTag()"></tags-input> 
+                        <tags-input ng-model="mainNote.tags" max-length=25 on-tag-added="addTag()" on-tag-removed="removeTag()"></tags-input> 
                     </div>
                     <div class="save-bar col-xs-4 col-sm-3 text-right">
                         <a href="#" class="btn btn-success btn-large" ng-show="editView" ng-click="saveEdit()">Save</a>

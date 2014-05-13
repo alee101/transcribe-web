@@ -125,6 +125,7 @@ body {
 .note-item {
   color: #333;
   height: 60px;
+  word-wrap: break-word;
 }
 .notes-list {
   padding-top: 15px;
@@ -173,6 +174,7 @@ body {
 #display_box {
   padding: 10px;
   height: 250px;
+  word-wrap: break-word;
 }
 #info_bar {
   position: absolute;

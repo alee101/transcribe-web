@@ -52,7 +52,8 @@ app.directive('noteItem', function() {
 		templateUrl: 'noteItem.html',
 		link: function($scope, element, attrs) {
 			$scope.previewFilter = function(text) {
-				return String(text).replace(/<[^>]+>/gm, '').substring(0, 60);
+				var cleanText = String(text).replace(/&lt;/g, '').replace(/&gt;/g, '');
+				return String(cleanText).replace(/<[^>]+>/gm, '').substring(0, 40);
 			};
 
 			$scope.deleteNote = function(note) {
@@ -71,7 +72,7 @@ app.directive('noteItem', function() {
 });
 
 
-app.controller("MainCtrl", function ($scope, noteService) {
+app.controller("MainCtrl", function ($scope, noteService, $sce) {
 	var user = window.newuser;
 	$scope.uname = user.uname;
 	$scope.notes = user.notes;
@@ -210,6 +211,17 @@ app.controller("MainCtrl", function ($scope, noteService) {
 				return true;
 		}
 		return false;
+	};
+
+	$scope.filterErrors = function(text) {
+		var cleanText = '';
+		try {
+			cleanText = $sce.getTrustedHtml(text);
+		} catch (e) {
+			cleanText = '<i>Oops, looks like there was an error with your note. \
+				Try taking the picture again or check <a href="/help">our FAQ</a> for more information.</i>';
+		}
+		return cleanText;
 	};
 
 	function searchSub(txt, queries) {
