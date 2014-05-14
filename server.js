@@ -37,6 +37,11 @@ app.configure(function() {
 require('./app/routes.js')(app, passport);
 require('./app/api.js')(app);
 
+// Handle non-existent routes
+app.get('*', function(req, res){
+	res.send("Oops, looks like this page doesn't exist" , 404);
+});
+
 app.listen(port);
 console.log('Listening on port ' + port);
 

@@ -96,7 +96,8 @@ module.exports = function(app) {
 	});
 
 	// Refresh notes
-	app.get('/api/notes', isLoggedIn, function (req, res, next) {
+	app.get('/api/notes', function (req, res, next) {
+		console.log('hit notes');
 		User.findById(req.user.id, function (err, user) {
 			if (err) return next(err);
 

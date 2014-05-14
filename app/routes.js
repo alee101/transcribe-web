@@ -45,6 +45,12 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 
+	app.get('/help', isLoggedIn, function (req, res) {
+		res.render('help.ejs', {
+			user : req.user
+		});
+	});
+
 	app.get('/note/:id', function (req, res, next) {
 		ShortUrl.findOne({ 'shortUrl': req.params.id }, function (err, shorturl) {
 			if (err) {
@@ -66,10 +72,5 @@ module.exports = function(app, passport) {
 				}
 			});
 		});
-	});
-
-	// Handle non-existent routes
-	app.get('*', function(req, res){
-		res.send("Oops, looks like this page doesn't exist" , 404);
 	});
 };
